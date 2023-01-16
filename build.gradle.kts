@@ -1,16 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val appCurrentVersion = project.properties["birds.app.currentVersion"] as String
+val appJvmVersion = project.properties["birds.app.jvmTarget"] as String
+
 plugins {
     kotlin("jvm") version "1.7.21"
 }
 
 allprojects {
     group = "ru.serj"
-    version = "1.0-SNAPSHOT"
+    version = appCurrentVersion
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
+        kotlinOptions.jvmTarget = appJvmVersion
     }
-
 }
 
 subprojects {
