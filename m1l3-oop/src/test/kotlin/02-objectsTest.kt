@@ -1,6 +1,16 @@
 import org.junit.Test
 
 class ObjectsExample {
+    object Singleton{
+        init {
+            println("Singleton class invoked.")
+        }
+        const val variableName = "I am Var"
+        fun printVarName(){
+            println(variableName)
+        }
+
+    }
     companion object {
         init {
             println("companion inited") // инициализация при загрузке класса ObjectsExample
@@ -27,6 +37,7 @@ class ObjectsTest {
         ObjectsExample.doSmth()
         ObjectsExample.A.doSmth()
         ObjectsExample.A.doSmth()
+        ObjectsExample.Singleton.printVarName()
     }
 }
 
