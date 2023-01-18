@@ -4,15 +4,23 @@ val appCurrentVersion = project.properties["birds.app.currentVersion"] as String
 val appJvmVersion = project.properties["birds.app.jvmTarget"] as String
 
 plugins {
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version Version.KOTLIN apply false
 }
 
 allprojects {
     group = "ru.serj"
-    version = appCurrentVersion
+    version = Version.BIRDS_APP
     tasks.withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = appJvmVersion
+        kotlinOptions.jvmTarget = Version.JVM_TARGET
     }
+    repositories {
+        mavenCentral()
+    }
+}
+
+repositories {
+    appJvmVersion
+    mavenCentral()
 }
 
 subprojects {
