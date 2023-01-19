@@ -45,3 +45,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/buildSrc/gradle/wrapper/gradle-wrapper.jar
+/buildSrc/gradle/wrapper/gradle-wrapper.properties
