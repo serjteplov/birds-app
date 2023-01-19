@@ -17,6 +17,8 @@ allprojects {
 }
 
 subprojects {
+    group = rootProject.group
+    version = rootProject.version
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = Version.JVM_TARGET
     }
