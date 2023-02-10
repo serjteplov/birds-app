@@ -1,0 +1,10 @@
+---
+version: '2'
+services:
+  birds-app:
+    image: birds-app:0.0.1
+    ports:
+      - "9999:9999"
+    environment:
+      MODE: "test"
+
