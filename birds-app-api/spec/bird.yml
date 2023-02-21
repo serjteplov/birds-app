@@ -1,0 +1,338 @@
+openapi: 3.0.4
+info:
+  title: Marketplace
+  description: This is a place where sellers and buyers meat each other
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: ad
+    description: Объявление (о покупке или продаже)
+paths:
+  /bird/create:
+    post:
+      tags:
+        - tweet
+      summary: Post the tweet
+      operationId: tweetCreate
+      requestBody:
+        description: Tweet body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TweetCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweetCreateResponse'
+  /bird/filter:
+    post:
+      tags:
+        - filter
+      summary: Filter tweets by date time
+      operationId: tweetFilter
+      requestBody:
+        description: Datetime interval
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TweetFilterRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweetFilterResponse'
+  /bird/delete:
+    post:
+      tags:
+        - delete
+      summary: Delete specific tweet
+      operationId: tweetDelete
+      requestBody:
+        description: tweet to be deleted
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TweetDeleteRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweetDeleteResponse'
+  /bird/search:
+    post:
+      tags:
+        - search
+      summary: Search tweets by text
+      operationId: tweetSearch
+      requestBody:
+        description: words or characters to look for
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TweetSearchRequest'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweetSearchResponse'
+
+components:
+  schemas:
+
+    TRequest:
+      type: object
+      description: Базовый интерфейс для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Дескриминатор для всех запросов
+          example: create
+        requestId:
+          type: string
+          description: trace id для отладки запроса
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/TweetCreateRequest'
+          filter: '#/components/schemas/TweetFilterRequest'
+          delete: '#/components/schemas/TweetDeleteRequest'
+          search: '#/components/schemas/TweetSearchRequest'
+
+    TResponse:
+      type: object
+      description: Базовый интерфейс для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Дескриминатор для вычисления типа запроса
+          example: create
+        requestId:
+          type: string
+          description: trace id для отладки
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+    TweetDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/TResponse'
+        - $ref: '#/components/schemas/SingleTweetResponse'
+
+    TweetCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/TResponse'
+        - $ref: '#/components/schemas/SingleTweetResponse'
+
+    TweetDeleteObject:
+      type: object
+      description: Список Id твитов
+      properties:
+        id:
+          $ref: '#/components/schemas/TweetId'
+        version:
+          $ref: '#/components/schemas/TweetVersion'
+
+
+    TweetDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/TRequest'
+        - $ref: '#/components/schemas/TweetRequestDebug'
+        - type: object
+          properties:
+            tweetFilter:
+              $ref: '#/components/schemas/TweetDeleteObject'
+
+    TweetSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/TResponse'
+        - $ref: '#/components/schemas/TweetList'
+
+    TweetSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/TRequest'
+        - $ref: '#/components/schemas/TweetRequestDebug'
+        - type: object
+          properties:
+            tweetFilter:
+              $ref: '#/components/schemas/TweetSearchText'
+
+    TweetSearchText:
+      type: object
+      description: Слова для поиска твитов
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка для поиска твитов
+
+
+    TweetFilterResponse:
+      allOf:
+        - $ref: '#/components/schemas/TResponse'
+        - $ref: '#/components/schemas/TweetList'
+
+    TweetList:
+      allOf:
+        - type: object
+          description: Список найденных твитов
+          properties:
+            tweets:
+              type: array
+              items:
+                $ref: '#/components/schemas/SingleTweetResponse'
+
+    SingleTweetResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseTweet'
+        - type: object
+          description: Твит, который возвращается в ответе бэкэнда
+          properties:
+            id:
+              $ref: '#/components/schemas/TweetId'
+            ownerId:
+              $ref: '#/components/schemas/UserId'
+            version:
+              $ref: '#/components/schemas/TweetVersion'
+            permissions:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/TweetPermissions'
+
+    TweetPermissions:
+      type: string
+      description: Доступы для клиента для операций над tweet
+      enum:
+        - read
+        - update
+        - delete
+        - makeVisiblePublic
+        - makeVisibleOwn
+        - makeVisibleGroup
+    TweetId:
+      type: string
+      description: Идентификатор твита
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+    TweetVersion:
+      type: string
+      description: Версия оптимистической блокировки
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+
+    TweetFilterRequest:
+      allOf:
+        - $ref: '#/components/schemas/TRequest'
+        - $ref: '#/components/schemas/TweetRequestDebug'
+        - type: object
+          properties:
+            interval:
+              $ref: '#/components/schemas/TweetFilterInterval'
+
+    TweetFilterInterval:
+      type: object
+      description: Интервал твитов для фильтрации
+      properties:
+        from:
+          type: string
+          description: Дата с
+        to:
+          type: string
+          description: Дата по
+
+    TweetCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/TRequest'
+        - $ref: '#/components/schemas/TweetRequestDebug'
+        - type: object
+          properties:
+            tweet:
+              $ref: '#/components/schemas/TweetCreateObject'
+
+    TweetCreateObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseTweet'
+
+    BaseTweet:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        text:
+          type: string
+          description: Текст твита
+        isMedia:
+          type: boolean
+          description: Указывает на то есть ли в твите картинка, видео, аудио
+          required: false
+        isReply:
+          type: boolean
+          description: Указывает на то является ли твит ответом на любой другой твит
+          required: false
+        dateTimeSent:
+          type: number
+
+    TweetRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/TweetDebug'
+
+    TweetDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/TweetRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/TweetRequestDebugStubs'
+
+    TweetRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    TweetRequestDebugStubs:
+      type: string
+      description: Перечисление всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badTitle
+        - badDescription
+        - badVisibility
+        - cannotDelete
+        - badSearchString
