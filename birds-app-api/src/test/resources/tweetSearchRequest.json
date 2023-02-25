@@ -1,0 +1,11 @@
+{
+  "requestType" : "search",
+  "requestId" : "requestId",
+  "debug" : {
+    "mode" : "prod",
+    "stub" : "success"
+  },
+  "tweetFilter" : {
+    "searchString" : "searching"
+  }
+}

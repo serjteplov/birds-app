@@ -39,6 +39,7 @@ paths:
       summary: Filter tweets by date time
       operationId: tweetFilter
       requestBody:
+        required: true
         description: Datetime interval
         content:
           application/json:
@@ -58,6 +59,7 @@ paths:
       summary: Delete specific tweet
       operationId: tweetDelete
       requestBody:
+        required: true
         description: tweet to be deleted
         content:
           application/json:
@@ -77,6 +79,7 @@ paths:
       summary: Search tweets by text
       operationId: tweetSearch
       requestBody:
+        required: true
         description: words or characters to look for
         content:
           application/json:
@@ -129,16 +132,23 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
+      discriminator:
+        propertyName: responseType
+        mapping:
+          create: '#/components/schemas/TweetCreateResponse'
+          filter: '#/components/schemas/TweetFilterResponse'
+          delete: '#/components/schemas/TweetDeleteResponse'
+          search: '#/components/schemas/TweetSearchResponse'
 
     TweetDeleteResponse:
       allOf:
         - $ref: '#/components/schemas/TResponse'
-        - $ref: '#/components/schemas/SingleTweetResponse'
+        - $ref: '#/components/schemas/TweetSingleResponse'
 
     TweetCreateResponse:
       allOf:
         - $ref: '#/components/schemas/TResponse'
-        - $ref: '#/components/schemas/SingleTweetResponse'
+        - $ref: '#/components/schemas/TweetSingleResponse'
 
     TweetDeleteObject:
       type: object
@@ -195,9 +205,9 @@ components:
             tweets:
               type: array
               items:
-                $ref: '#/components/schemas/SingleTweetResponse'
+                $ref: '#/components/schemas/TweetSingleResponse'
 
-    SingleTweetResponse:
+    TweetSingleResponse:
       allOf:
         - $ref: '#/components/schemas/BaseTweet'
         - type: object
@@ -250,6 +260,12 @@ components:
           type: string
         message:
           type: string
+    TweetVisibility:
+      type: string
+      description: Кто может просматривать твит
+      enum:
+        - public
+        - followersOnly
 
 
     TweetFilterRequest:
@@ -292,16 +308,14 @@ components:
         text:
           type: string
           description: Текст твита
-        isMedia:
+        containsMedia:
           type: boolean
           description: Указывает на то есть ли в твите картинка, видео, аудио
-          required: false
-        isReply:
+        reply:
           type: boolean
           description: Указывает на то является ли твит ответом на любой другой твит
-          required: false
-        dateTimeSent:
-          type: number
+        visibility:
+          $ref: '#/components/schemas/TweetVisibility'
 
     TweetRequestDebug:
       type: object
