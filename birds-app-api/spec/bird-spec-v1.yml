@@ -96,6 +96,25 @@ paths:
 components:
   schemas:
 
+    TweetId:
+      $ref: '../build/base.yml#/components/schemas/TweetId'
+    UserId:
+      $ref: '../build/base.yml#/components/schemas/UserId'
+    TweetVersion:
+      $ref: '../build/base.yml#/components/schemas/TweetVersion'
+    ResponseResult:
+      $ref: '../build/base.yml#/components/schemas/ResponseResult'
+    TweetPermissions:
+      $ref: '../build/base.yml#/components/schemas/TweetPermissions'
+    TweetVisibility:
+      $ref: '../build/base.yml#/components/schemas/TweetVisibility'
+    Error:
+      $ref: '../build/base.yml#/components/schemas/Error'
+    TweetRequestDebugMode:
+      $ref: '../build/base.yml#/components/schemas/TweetRequestDebugMode'
+    TweetRequestDebugStubs:
+      $ref: '../build/base.yml#/components/schemas/TweetRequestDebugStubs'
+
     TRequest:
       type: object
       description: Базовый интерфейс для всех запросов
@@ -140,6 +159,36 @@ components:
           delete: '#/components/schemas/TweetDeleteResponse'
           search: '#/components/schemas/TweetSearchResponse'
 
+    BaseTweet:
+      type: object
+      description: Объект описывает свойства, одинаковые для create и update
+      properties:
+        text:
+          type: string
+          description: Текст твита
+        containsMedia:
+          type: boolean
+          description: Указывает на то есть ли в твите картинка, видео, аудио
+        reply:
+          type: boolean
+          description: Указывает на то является ли твит ответом на любой другой твит
+        visibility:
+          $ref: '#/components/schemas/TweetVisibility'
+
+    TweetRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/TweetDebug'
+
+    TweetDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/TweetRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/TweetRequestDebugStubs'
+
     TweetDeleteResponse:
       allOf:
         - $ref: '#/components/schemas/TResponse'
@@ -158,7 +207,6 @@ components:
           $ref: '#/components/schemas/TweetId'
         version:
           $ref: '#/components/schemas/TweetVersion'
-
 
     TweetDeleteRequest:
       allOf:
@@ -190,7 +238,6 @@ components:
         searchString:
           type: string
           description: Поисковая строка для поиска твитов
-
 
     TweetFilterResponse:
       allOf:
@@ -225,49 +272,6 @@ components:
               items:
                 $ref: '#/components/schemas/TweetPermissions'
 
-    TweetPermissions:
-      type: string
-      description: Доступы для клиента для операций над tweet
-      enum:
-        - read
-        - update
-        - delete
-        - makeVisiblePublic
-        - makeVisibleOwn
-        - makeVisibleGroup
-    TweetId:
-      type: string
-      description: Идентификатор твита
-    UserId:
-      type: string
-      description: Идентификатор пользователя
-    TweetVersion:
-      type: string
-      description: Версия оптимистической блокировки
-    ResponseResult:
-      type: string
-      enum:
-        - success
-        - error
-    Error:
-      type: object
-      properties:
-        code:
-          type: string
-        group:
-          type: string
-        field:
-          type: string
-        message:
-          type: string
-    TweetVisibility:
-      type: string
-      description: Кто может просматривать твит
-      enum:
-        - public
-        - followersOnly
-
-
     TweetFilterRequest:
       allOf:
         - $ref: '#/components/schemas/TRequest'
@@ -300,53 +304,3 @@ components:
     TweetCreateObject:
       allOf:
         - $ref: '#/components/schemas/BaseTweet'
-
-    BaseTweet:
-      type: object
-      description: Объект описывает свойства, одинаковые для create и update
-      properties:
-        text:
-          type: string
-          description: Текст твита
-        containsMedia:
-          type: boolean
-          description: Указывает на то есть ли в твите картинка, видео, аудио
-        reply:
-          type: boolean
-          description: Указывает на то является ли твит ответом на любой другой твит
-        visibility:
-          $ref: '#/components/schemas/TweetVisibility'
-
-    TweetRequestDebug:
-      type: object
-      properties:
-        debug:
-          $ref: '#/components/schemas/TweetDebug'
-
-    TweetDebug:
-      type: object
-      properties:
-        mode:
-          $ref: '#/components/schemas/TweetRequestDebugMode'
-        stub:
-          $ref: '#/components/schemas/TweetRequestDebugStubs'
-
-    TweetRequestDebugMode:
-      type: string
-      enum:
-        - prod
-        - test
-        - stub
-
-    TweetRequestDebugStubs:
-      type: string
-      description: Перечисление всех стабов
-      enum:
-        - success
-        - notFound
-        - badId
-        - badTitle
-        - badDescription
-        - badVisibility
-        - cannotDelete
-        - badSearchString
