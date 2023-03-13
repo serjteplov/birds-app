@@ -1,3 +1,7 @@
+
+// проект содержит транспортные модели в виде openapi спеки,
+// а также сгенерированные по данной спеке классы
+
 plugins {
     kotlin("jvm")
     id("org.openapi.generator")
@@ -22,6 +26,7 @@ tasks {
 
 val apiSpec: Configuration by configurations.creating
 
+// копируем базовую спеку к себе в класспас, далее будем обращаться к ней в спеке
 val getSpecTask by tasks.creating {
     doFirst {
         copy {
@@ -38,6 +43,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     testImplementation(kotlin("test-junit"))
+    // импортируем проект из localmaven с базовой спекой birds-app-api-base
     apiSpec(
         group = rootProject.group.toString(),
         name = "birds-app-api-base",

@@ -140,7 +140,7 @@ components:
       properties:
         responseType:
           type: string
-          description: Дескриминатор для вычисления типа запроса
+          description: Дескриминатор для вычисления типа ответа
           example: create
         requestId:
           type: string
@@ -214,7 +214,7 @@ components:
         - $ref: '#/components/schemas/TweetRequestDebug'
         - type: object
           properties:
-            tweetFilter:
+            tweetDelete:
               $ref: '#/components/schemas/TweetDeleteObject'
 
     TweetSearchResponse:
