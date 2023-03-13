@@ -1,0 +1,11 @@
+{
+  "responseType" : "filter",
+  "requestId" : "requestId",
+  "result" : "error",
+  "errors" : [ {
+    "code" : "1005",
+    "group" : "some-error-group",
+    "field" : "error",
+    "message" : "Some error occurred!"
+  } ]
+}

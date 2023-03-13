@@ -1,0 +1,24 @@
+{
+  "responseType" : "filter",
+  "requestId" : "requestId",
+  "result" : "success",
+  "tweets" : [ {
+    "text" : "text1",
+    "containsMedia" : false,
+    "reply" : false,
+    "visibility" : "public",
+    "id" : "12345",
+    "ownerId" : "6789",
+    "version" : "tag1",
+    "permissions" : [ "update", "read" ]
+  }, {
+    "text" : "text2",
+    "containsMedia" : true,
+    "reply" : false,
+    "visibility" : "followersOnly",
+    "id" : "12000",
+    "ownerId" : "6000",
+    "version" : "tag2",
+    "permissions" : [ "makeVisibleGroup", "makeVisibleOwn" ]
+  } ]
+}

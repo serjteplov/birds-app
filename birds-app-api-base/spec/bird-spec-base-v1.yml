@@ -1,0 +1,78 @@
+openapi: 3.0.4
+info:
+  title: Marketplace
+  description: This is a place where sellers and buyers meat each other
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/v1
+tags:
+  - name: ad
+    description: Объявление (о покупке или продаже)
+
+paths: {}
+
+
+components:
+  schemas:
+    TweetId:
+      type: string
+      description: Идентификатор твита
+    UserId:
+      type: string
+      description: Идентификатор пользователя
+    TweetVersion:
+      type: string
+      description: Версия оптимистической блокировки
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+    TweetPermissions:
+      type: string
+      description: Доступы для клиента для операций над tweet
+      enum:
+        - read
+        - update
+        - delete
+        - makeVisiblePublic
+        - makeVisibleOwn
+        - makeVisibleGroup
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+    TweetVisibility:
+      type: string
+      description: Кто может просматривать твит
+      enum:
+        - public
+        - followersOnly
+    TweetRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+    TweetRequestDebugStubs:
+      type: string
+      description: Перечисление всех стабов
+      enum:
+        - success
+        - notFound
+        - badId
+        - badTitle
+        - badDescription
+        - badVisibility
+        - cannotDelete
+        - badSearchString
