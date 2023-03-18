@@ -1,6 +1,6 @@
+import BirdsTweetPermission.*
 import kotlinx.datetime.Instant
 import models.*
-import models.BirdsTweetPermission.*
 import org.junit.Test
 import ru.serj.api.v1.models.*
 import kotlin.test.assertEquals
