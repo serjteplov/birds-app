@@ -44,7 +44,6 @@ class SerializationTest {
     fun `deserialization filter tweet response`() {
         val string = SerializationTest::class.java.getResource("tweetFilterResponse.json")!!.readText()
         val expectedModel = TweetFilterResponse(
-            responseType = "filter",
             requestId = "requestId",
             result = ResponseResult.SUCCESS,
             tweets = listOf(

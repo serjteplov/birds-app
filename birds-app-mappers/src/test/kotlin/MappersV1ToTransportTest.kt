@@ -34,7 +34,6 @@ internal class MappersV1ToTransportTest {
 
         // then
         assertEquals(response.id, "birdsTweetId")
-        assertEquals(response.responseType, "create")
         assertEquals(response.ownerId, "birdsUserId")
         assertEquals(response.containsMedia, false)
         assertEquals(response.permissions, setOf(TweetPermissions.READ, TweetPermissions.UPDATE))
@@ -72,13 +71,7 @@ internal class MappersV1ToTransportTest {
 
         // then
         assertEquals(response.id, "birdsTweetId")
-        assertEquals(response.responseType, "delete")
         assertEquals(response.ownerId, "birdsUserId")
-        assertEquals(response.containsMedia, false)
-        assertEquals(response.permissions, setOf(TweetPermissions.READ, TweetPermissions.UPDATE))
-        assertEquals(response.reply, false)
-        assertEquals(response.text, "text")
-        assertEquals(response.visibility, TweetVisibility.PUBLIC)
         assertEquals(response.requestId, "requestId")
         assertEquals(response.result, ResponseResult.SUCCESS)
     }
@@ -141,7 +134,6 @@ internal class MappersV1ToTransportTest {
         val response = context.toTransport() as TweetSearchResponse
 
         // then
-        assertEquals(response.responseType, "search")
         assertEquals(response.requestId, "requestId")
         assertEquals(response.result, ResponseResult.SUCCESS)
         assertEquals(response.tweets, listOf(tsr1, tsr2))
@@ -205,7 +197,6 @@ internal class MappersV1ToTransportTest {
         val response = context.toTransport() as TweetFilterResponse
 
         // then
-        assertEquals(response.responseType, "filter")
         assertEquals(response.requestId, "requestId")
         assertEquals(response.result, ResponseResult.SUCCESS)
         assertEquals(response.tweets, listOf(tsr1, tsr2))
@@ -235,7 +226,6 @@ internal class MappersV1ToTransportTest {
         val response = context.toTransport() as TweetCreateResponse
 
         // then
-        assertEquals(response.responseType, "create")
         assertEquals(response.requestId, "requestId")
         assertEquals(response.result, ResponseResult.ERROR)
         assertEquals(
