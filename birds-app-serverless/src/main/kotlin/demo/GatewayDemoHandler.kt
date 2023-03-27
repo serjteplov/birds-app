@@ -9,9 +9,11 @@ import yandex.cloud.sdk.functions.YcFunction
 Задача:
 Надо создать апи шлюз так чтобы вызывался метод POST а параметр передовался в теле
 Решение:
-Чтобы эта функция работала через API-gateway нужно обязательно чтобы она принимала demo.Request и
-возвращала demo.Response. demo.Request и demo.Response должны иметь определенную структуру.
-Спецификация шлюза выглядит так:
+Для начала изменить точку входа - demo.GatewayDemoHandler.
+Затем чтобы вызывать функцию через API-gateway нужно чтобы
+в коде она принимала на вход Request и
+возвращала Response. Request и Response должны иметь определенную структуру.
+Спецификация простейшего шлюза выглядит так. Нужно его создать в ЯО
 openapi: 3.0.0
 info:
   title: Sample API
@@ -28,6 +30,11 @@ paths:
           function_id: d4eehpo48jmotbie4fdo
           tag: "$latest"
           service_account_id: ajekkrpv3tfcmva4sltv
+
+Вызов:
+curl --location --request POST 'https://d5dnfigrre09gkk5hjpb.apigw.yandexcloud.net' \
+--header 'Content-Type: application/json' \
+--data-raw 'anything'
 
 */
 

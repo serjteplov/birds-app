@@ -5,7 +5,16 @@ import yandex.cloud.sdk.functions.YcFunction
 
 
 /*
-Вызов функции
+Создание функции в яндекс cloud:
+1. Создаем shadow jar
+2. Открываем ЯО, создать функцию, способ Object Storage
+3. Бакет - test-bucket-teplov-1 (бакет который вы создали)
+4. Объект - birds-app-serverless-0.0.3-all.jar (shadow джарник который вы собрали и залили в бакет)
+5. Точка входа - demo.SimpleDemoHandler
+6. Жмем Создать версию
+
+
+Вызов функции:
 curl --location --request POST 'https://functions.yandexcloud.net/d4eehpo48jmotbie4fdo?integration=raw' \
 --header 'Content-Type: application/json' \
 --data-raw '1556'
