@@ -7,12 +7,12 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-  - url: http://localhost:8080/v1
+  - url: http://localhost:8080/bird
 tags:
-  - name: ad
-    description: Объявление (о покупке или продаже)
+  - name: tweet
+    description: Твит
 paths:
-  /bird/v1/create:
+  /v1/create:
     post:
       tags:
         - tweet
@@ -32,7 +32,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TweetCreateResponse'
-  /bird/v1/filter:
+  /v1/filter:
     post:
       tags:
         - filter
@@ -52,7 +52,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TweetFilterResponse'
-  /bird/v1/delete:
+  /v1/delete:
     post:
       tags:
         - delete
@@ -72,7 +72,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TweetDeleteResponse'
-  /bird/v1/search:
+  /v1/search:
     post:
       tags:
         - search
