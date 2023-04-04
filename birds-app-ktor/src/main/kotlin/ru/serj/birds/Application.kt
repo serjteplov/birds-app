@@ -1,5 +1,5 @@
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
+package ru.serj.birds
+
 import io.ktor.serialization.jackson.*
 import io.ktor.server.application.*
 import io.ktor.server.locations.*
@@ -9,11 +9,12 @@ import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.defaultheaders.*
 import io.ktor.server.routing.*
+import mapper
 import org.slf4j.event.Level
-import route.birdsCreate
-import route.birdsDelete
-import route.birdsFilter
-import route.birdsSearch
+import ru.serj.birds.route.birdsCreate
+import ru.serj.birds.route.birdsDelete
+import ru.serj.birds.route.birdsFilter
+import ru.serj.birds.route.birdsSearch
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
@@ -28,8 +29,8 @@ fun Application.module() {
 
     install(ContentNegotiation) {
         jackson {
-            setSerializationInclusion(JsonInclude.Include.NON_NULL)
-            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            setConfig(mapper.serializationConfig)
+            setConfig(mapper.deserializationConfig)
         }
     }
 

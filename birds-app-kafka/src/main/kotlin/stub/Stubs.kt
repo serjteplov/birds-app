@@ -1,3 +1,5 @@
+package ru.serj.birds.stub
+
 import models.BirdsTweet
 import models.BirdsTweetId
 import models.BirdsUserId
