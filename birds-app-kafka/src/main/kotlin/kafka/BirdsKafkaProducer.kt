@@ -2,12 +2,12 @@ package ru.serj.birds.kafka
 
 import mapper
 import org.apache.kafka.clients.producer.Callback
-import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.Producer
 import org.apache.kafka.clients.producer.ProducerRecord
 import ru.serj.api.v1.models.TResponse
 
 class BirdsKafkaProducer(
-    private val producer: KafkaProducer<String, String> = KafkaConfiguration().createProducer(),
+    private val producer: Producer<String, String> = KafkaConfiguration().createProducer(),
     private val topic: String
 ) {
 
