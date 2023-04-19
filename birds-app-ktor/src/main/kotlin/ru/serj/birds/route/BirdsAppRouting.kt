@@ -1,4 +1,4 @@
-package route
+package ru.serj.birds.route
 
 import BirdsContext
 import fromTransport
@@ -8,8 +8,8 @@ import io.ktor.server.response.*
 import models.BirdsFilterPeriod
 import models.BirdsState
 import ru.serj.api.v1.models.*
+import ru.serj.birds.stub.tweetResponseStub
 import toTransport
-import tweetResponseStub
 
 suspend fun ApplicationCall.birdsCreate() {
     val req = receive<TweetCreateRequest>()

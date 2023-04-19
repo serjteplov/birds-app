@@ -1,5 +1,3 @@
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.DeserializationFeature
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -11,6 +9,7 @@ import org.slf4j.LoggerFactory
 import ru.serj.api.v1.models.*
 import ru.serj.api.v1.models.TweetPermissions.READ
 import ru.serj.api.v1.models.TweetPermissions.UPDATE
+import ru.serj.birds.module
 import kotlin.test.assertEquals
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ClientNegotiation
 
@@ -158,8 +157,8 @@ class ApplicationTest {
     private fun ApplicationTestBuilder.createTestClient() = createClient {
         this.install(ClientNegotiation) {
             jackson {
-                setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                setConfig(mapper.serializationConfig)
+                setConfig(mapper.deserializationConfig)
             }
         }
     }
