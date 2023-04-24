@@ -4,20 +4,25 @@ val logbackVersion: String by project
 val kotlinDatetime: String by project
 
 plugins {
+    application
     kotlin("jvm")
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+}
+
+application {
+    mainClass.set("ru.serj.birds.ApplicationKt")
 }
 
 dependencies {
 
-
-    implementation(kotlin("stdlib"))
     implementation(project(":birds-app-api-v1"))
     implementation(project(":birds-app-common"))
     implementation(project(":birds-app-mappers"))
     implementation(project(":birds-app-biz"))
 
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-
     implementation("io.ktor:ktor-server-core-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-netty-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-config-yaml-jvm:$ktorVersion")
@@ -28,9 +33,7 @@ dependencies {
     implementation("io.ktor:ktor-server-caching-headers-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-locations-jvm:$ktorVersion")
 
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
-
+    implementation(kotlin("stdlib"))
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinDatetime")
 

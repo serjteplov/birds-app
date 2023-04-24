@@ -46,7 +46,7 @@ dependencies {
     // импортируем проект из localmaven с базовой спекой birds-app-api-base
     apiSpec(
         group = rootProject.group.toString(),
-        name = "birds-app-api-base",
+        name = "birds-app-api-base-v1",
         version = rootProject.version.toString(),
         classifier = "openapi",
         ext = "yml"
