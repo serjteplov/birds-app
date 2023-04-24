@@ -29,7 +29,15 @@ class ApplicationTest {
 
         val response = ktorClient.post("/bird/v1/create") {
             contentType(ContentType.Application.Json)
-            setBody(TweetCreateRequest(requestType = "create", requestId = "requestId"))
+            setBody(
+                TweetCreateRequest(
+                    requestType = "create",
+                    requestId = "requestId",
+                    tweet = TweetCreateObject(
+                        text = "test"
+                    )
+                )
+            )
         }.apply {
             assertEquals(HttpStatusCode.OK, status)
         }

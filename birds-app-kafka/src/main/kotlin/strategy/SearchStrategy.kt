@@ -13,6 +13,6 @@ class SearchStrategy : BirdsStrategy {
     override fun process(request: TRequest, context: BirdsContext) {
         context.fromTransport(request)
         context.tweetResponse = tweetResponseStub
-        context.state = BirdsState.RUNNING
+        context.state = BirdsState.DONE
     }
 }

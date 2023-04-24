@@ -105,7 +105,7 @@ fun TweetFilterInterval.toInternal() = BirdsFilterPeriod(
 fun BirdsContext.fromTransport(request: TweetSearchRequest) {
     command = BirdsCommand.SEARCH
     requestId = request.requestId()
-    tweetFilterRequest = request.tweetFilter.toInternal()
+    tweetSearchRequest = request.tweetFilter.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }

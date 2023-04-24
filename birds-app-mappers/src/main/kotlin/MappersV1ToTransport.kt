@@ -13,14 +13,14 @@ fun BirdsContext.toTransport(): TResponse = when (command) {
 
 private fun BirdsContext.toTransportFilter() = TweetFilterResponse(
     requestId = requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == BirdsState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == BirdsState.DONE) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransport(),
     tweets = tweetMultiResponse.map { it.toTransport() }.takeIf { it.isNotEmpty() }
 )
 
 private fun BirdsContext.toTransportDelete() = TweetDeleteResponse(
     requestId = requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == BirdsState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == BirdsState.DONE) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransport(),
     id = tweetResponse.id.asString(),
     ownerId = tweetResponse.ownerId.asString(),
@@ -28,14 +28,14 @@ private fun BirdsContext.toTransportDelete() = TweetDeleteResponse(
 
 private fun BirdsContext.toTransportSearch() = TweetSearchResponse(
     requestId = requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == BirdsState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == BirdsState.DONE) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransport(),
     tweets = tweetMultiResponse.map { it.toTransport() }.takeIf { it.isNotEmpty() }
 )
 
 private fun BirdsContext.toTransportCreate() = TweetCreateResponse(
     requestId = requestId.asString().takeIf { it.isNotBlank() },
-    result = if (state == BirdsState.RUNNING) ResponseResult.SUCCESS else ResponseResult.ERROR,
+    result = if (state == BirdsState.DONE) ResponseResult.SUCCESS else ResponseResult.ERROR,
     errors = errors.toTransport(),
     text = tweetResponse.toTransportText(),
     containsMedia = tweetResponse.containsMedia,

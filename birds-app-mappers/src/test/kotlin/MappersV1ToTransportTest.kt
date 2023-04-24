@@ -12,7 +12,7 @@ internal class MappersV1ToTransportTest {
         // given
         val context = BirdsContext(
             command = BirdsCommand.CREATE,
-            state = BirdsState.RUNNING,
+            state = BirdsState.DONE,
             workMode = BirdsWorkMode.PROD,
             stubCase = BirdsStubs.NONE,
             requestId = BirdsRequestId("requestId"),
@@ -50,7 +50,7 @@ internal class MappersV1ToTransportTest {
         // given
         val context = BirdsContext(
             command = BirdsCommand.DELETE,
-            state = BirdsState.RUNNING,
+            state = BirdsState.DONE,
             workMode = BirdsWorkMode.PROD,
             stubCase = BirdsStubs.NONE,
             requestId = BirdsRequestId("requestId"),
@@ -81,7 +81,7 @@ internal class MappersV1ToTransportTest {
         // given
         val context = BirdsContext(
             command = BirdsCommand.SEARCH,
-            state = BirdsState.RUNNING,
+            state = BirdsState.DONE,
             workMode = BirdsWorkMode.PROD,
             stubCase = BirdsStubs.NONE,
             requestId = BirdsRequestId("requestId"),
@@ -144,7 +144,7 @@ internal class MappersV1ToTransportTest {
         // given
         val context = BirdsContext(
             command = BirdsCommand.FILTER,
-            state = BirdsState.RUNNING,
+            state = BirdsState.DONE,
             workMode = BirdsWorkMode.PROD,
             stubCase = BirdsStubs.NONE,
             requestId = BirdsRequestId("requestId"),
@@ -207,7 +207,7 @@ internal class MappersV1ToTransportTest {
         // given
         val context = BirdsContext(
             command = BirdsCommand.CREATE,
-            state = BirdsState.FAILING,
+            state = BirdsState.FAILED,
             workMode = BirdsWorkMode.STUB,
             stubCase = BirdsStubs.NONE,
             requestId = BirdsRequestId("requestId"),

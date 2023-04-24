@@ -1,6 +1,6 @@
 ktor:
   application:
     modules:
-      - ApplicationKt.module
+      - ru.serj.birds.ApplicationKt.module
   deployment:
     port: "$PORT:8080"

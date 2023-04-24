@@ -97,8 +97,8 @@ internal class MappersV1FromTransportTest {
         assertEquals(BirdsWorkMode.STUB, context.workMode)
         assertEquals(BirdsStubs.NONE, context.stubCase)
         assertEquals(BirdsRequestId("requestId"), context.requestId)
-        assertEquals(1676002616000, context.tweetFilterPeriod.from?.toEpochMilliseconds())
-        assertEquals(1678421816000, context.tweetFilterPeriod.to?.toEpochMilliseconds())
+        assertEquals(1676002616000, context.tweetFilterPeriod.from.toEpochMilliseconds())
+        assertEquals(1678421816000, context.tweetFilterPeriod.to.toEpochMilliseconds())
     }
 
     @Test
@@ -122,7 +122,7 @@ internal class MappersV1FromTransportTest {
         assertEquals(BirdsWorkMode.STUB, context.workMode)
         assertEquals(BirdsStubs.NONE, context.stubCase)
         assertEquals(BirdsRequestId("requestId"), context.requestId)
-        assertEquals("searching", context.tweetFilterRequest.searchString)
+        assertEquals("searching", context.tweetSearchRequest.searchString)
     }
 
     @Test

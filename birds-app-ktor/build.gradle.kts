@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":birds-app-api-v1"))
     implementation(project(":birds-app-common"))
     implementation(project(":birds-app-mappers"))
+    implementation(project(":birds-app-biz"))
 
     implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
 

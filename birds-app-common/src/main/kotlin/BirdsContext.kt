@@ -13,7 +13,7 @@ data class BirdsContext(
     var timeStart: Instant = Instant.NONE,
 
     var tweetRequest: BirdsTweet = BirdsTweet(),
-    var tweetFilterRequest: BirdsTweetSearch = BirdsTweetSearch(),
+    var tweetSearchRequest: BirdsTweetSearch = BirdsTweetSearch(),
     var tweetFilterPeriod: BirdsFilterPeriod = BirdsFilterPeriod(),
     var tweetResponse: BirdsTweet = BirdsTweet(),
     var tweetMultiResponse: MutableList<BirdsTweet> = mutableListOf()
