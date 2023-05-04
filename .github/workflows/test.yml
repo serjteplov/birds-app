@@ -33,7 +33,7 @@ jobs:
         with:
           package-name: 'ru.serj.birds-app-api-base-v1'
           package-type: 'maven'
-          min-versions-to-keep: 1
+          min-versions-to-keep: 0
           ignore-versions: '^(0|[1-9]\\d*)\\.0\\.0$'
           delete-only-pre-release-versions: "true"
       - name: Publish package
