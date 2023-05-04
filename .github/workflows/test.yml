@@ -34,6 +34,7 @@ jobs:
           package-name: 'ru.serj.birds-app-api-base-v1'
           package-type: 'maven'
           min-versions-to-keep: 0
+          ignore-versions: '^0\\.0\\.2$'
       - name: Publish package
         uses: gradle/gradle-build-action@v2
         with:
