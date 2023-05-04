@@ -28,13 +28,12 @@ jobs:
         run: sudo apt install -y libcurl4-openssl-dev
       - name: Set gradlew executable
         run: chmod +x ./gradlew
-      - name: Delete old versions
+      - name: Delete all previous versions
         uses: actions/delete-package-versions@v4
         with:
           package-name: 'ru.serj.birds-app-api-base-v1'
           package-type: 'maven'
           min-versions-to-keep: 0
-          ignore-versions: '^0\\.0\\.2$'
       - name: Publish package
         uses: gradle/gradle-build-action@v2
         with:
