@@ -23,7 +23,11 @@ jobs:
         run: sudo apt-get update
       - name: Install curl-dev
         run: sudo apt install -y libcurl4-openssl-dev
-      - name: Test package
-        run: gradle clean publish
+      - name: Publish package
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629
+        with:
+          arguments: publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Test package
         run: gradle check
