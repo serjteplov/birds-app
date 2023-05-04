@@ -56,6 +56,16 @@ dependencies {
 repositories {
     mavenLocal()
     mavenCentral()
+
+    val repoUser: String? = System.getenv("GITHUB_ACTOR")
+    val repoPass: String? = System.getenv("GITHUB_TOKEN")
+    maven {
+        url = uri("https://maven.pkg.github.com/serjteplov/birds-app")
+        credentials {
+            username = repoUser
+            password = repoPass
+        }
+    }
 }
 
 // https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/kotlin.md

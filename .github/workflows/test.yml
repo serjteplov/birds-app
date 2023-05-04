@@ -7,12 +7,12 @@ on:
       - 'master'
   workflow_dispatch:
 
-permissions:
-  packages: write
-
 jobs:
   build:
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -35,4 +35,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Test package
-        run: gradle check
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
