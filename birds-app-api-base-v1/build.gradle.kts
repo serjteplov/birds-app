@@ -43,8 +43,13 @@ publishing {
         val repoUser: String? = System.getenv("GITHUB_ACTOR")
         val repoPass: String? = System.getenv("GITHUB_TOKEN")
 
+        println("1")
+        repoUser?.also { println(it) }
+        repoPass?.also { println(it) }
+        println("2")
+
         if (repoUser != null && repoPass != null) {
-            println("REPO!!!!!!!!!!!!!!!!!!")
+            println("3")
             println("REPO: $repoHost USER: $repoUser")
             maven {
                 name = "GitHubPackages"
@@ -55,5 +60,6 @@ publishing {
                 }
             }
         }
+        println("4")
     }
 }
