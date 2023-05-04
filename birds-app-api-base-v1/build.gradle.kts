@@ -21,7 +21,7 @@ tasks {
 }
 
 publishing {
-    // помещаем созданный артефакт в публикацию
+    // создаем публикацию и помещаем specArtifact в публикацию
     publications {
         create<MavenPublication>("maven") {
             groupId = rootProject.group.toString()
@@ -29,29 +29,20 @@ publishing {
             version = rootProject.version.toString()
             artifact(specArtifact)
             pom {
-                scm {
-                    connection.set("scm:git:git://github.com/ccc/ccc.git")
-                    developerConnection.set("scm:git:ssh://github.com/ccc/ccc.git")
-                    url.set("https://github.com/ccc/ccc")
+                scm {// инфо для справки
+                    connection.set("scm:git:git://github.com/serjteplov/birds-app.git")
+                    developerConnection.set("scm:git:ssh://github.com/serjteplov/birds-app.git")
+                    url.set("https://github.com/serjteplov/birds-app")
                 }
             }
         }
     }
-    // публикуем на удаленный репозиторий, для публикации в localMaven эта секция не нужна
+    // публикуем на удаленный репозиторий (для публикации в localMaven эта секция не нужна)
     repositories {
-        val repoHost: String = "https://maven.pkg.github.com/serjteplov/birds-app"
+        val repoHost = "https://maven.pkg.github.com/serjteplov/birds-app"
         val repoUser: String? = System.getenv("GITHUB_ACTOR")
         val repoPass: String? = System.getenv("GITHUB_TOKEN")
-//        val repoUser: String? = "serjteplov"
-//        val repoPass: String? = ""
-
-        println("1")
-        repoUser?.also { println(it) }
-        repoPass?.also { println(it) }
-        println("2")
-
         if (repoUser != null && repoPass != null) {
-            println("3")
             println("REPO: $repoHost USER: $repoUser")
             maven {
                 name = "GitHubPackages"
@@ -62,6 +53,5 @@ publishing {
                 }
             }
         }
-        println("4")
     }
 }
