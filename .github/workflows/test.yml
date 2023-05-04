@@ -24,4 +24,6 @@ jobs:
       - name: Install curl-dev
         run: sudo apt install -y libcurl4-openssl-dev
       - name: Test package
+        run: gradle clean publish
+      - name: Test package
         run: gradle check

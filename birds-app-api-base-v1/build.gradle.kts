@@ -14,6 +14,12 @@ val specArtifact = artifacts.add(archives.name, specFile.get().asFile) {
     classifier = "openapi"
 }
 
+tasks {
+    publish {
+        dependsOn(build)
+    }
+}
+
 publishing {
     // помещаем созданный артефакт в публикацию
     publications {
@@ -33,10 +39,11 @@ publishing {
     }
     // публикуем на удаленный репозиторий, для публикации в localMaven эта секция не нужна
     repositories {
-        val repoHost: String? = System.getenv("NEXUS_HOST")
-        val repoUser: String? = System.getenv("NEXUS_USER") ?: System.getenv("GITHUB_ACTOR")
-        val repoPass: String? = System.getenv("NEXUS_PASS") ?: System.getenv("GITHUB_TOKEN")
-        if (repoHost != null && repoUser != null && repoPass != null) {
+        val repoHost: String = "https://maven.pkg.github.com/serjteplov/birds-app"
+        val repoUser: String? = System.getenv("GITHUB_ACTOR")
+        val repoPass: String? = System.getenv("GITHUB_TOKEN")
+
+        if (repoUser != null && repoPass != null) {
             println("REPO: $repoHost USER: $repoUser")
             maven {
                 name = "GitHubPackages"
