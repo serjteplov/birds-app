@@ -35,6 +35,7 @@ jobs:
           package-type: 'maven'
           min-versions-to-keep: 1
           ignore-versions: '^(0|[1-9]\\d*)\\.0\\.0$'
+          delete-only-pre-release-versions: "true"
       - name: Publish package
         uses: gradle/gradle-build-action@v2
         with:
