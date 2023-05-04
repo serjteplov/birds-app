@@ -31,7 +31,7 @@ jobs:
 
       - uses: actions/delete-package-versions@v4
         with:
-          package-name: 'birds-app-api-base-v1'
+          package-name: 'ru.serj.birds-app-api-base-v1'
           package-type: 'maven'
 
       - name: Publish package
