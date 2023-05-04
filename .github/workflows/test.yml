@@ -28,7 +28,7 @@ jobs:
         run: sudo apt install -y libcurl4-openssl-dev
       - name: Set gradlew executable
         run: chmod +x ./gradlew
-      - name: Delete all previous packages
+      - name: Delete all previous versions of birds-app-api-base-v1
         uses: actions/delete-package-versions@v4
         with:
           package-name: 'ru.serj.birds-app-api-base-v1'
