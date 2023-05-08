@@ -14,8 +14,14 @@ val specArtifact = artifacts.add(archives.name, specFile.get().asFile) {
     classifier = "openapi"
 }
 
+tasks {
+    publish {
+        dependsOn(build)
+    }
+}
+
 publishing {
-    // помещаем созданный артефакт в публикацию
+    // создаем публикацию и помещаем specArtifact в публикацию
     publications {
         create<MavenPublication>("maven") {
             groupId = rootProject.group.toString()
@@ -23,20 +29,20 @@ publishing {
             version = rootProject.version.toString()
             artifact(specArtifact)
             pom {
-                scm {
-                    connection.set("scm:git:git://github.com/ccc/ccc.git")
-                    developerConnection.set("scm:git:ssh://github.com/ccc/ccc.git")
-                    url.set("https://github.com/ccc/ccc")
+                scm {// инфо для справки
+                    connection.set("scm:git:git://github.com/serjteplov/birds-app.git")
+                    developerConnection.set("scm:git:ssh://github.com/serjteplov/birds-app.git")
+                    url.set("https://github.com/serjteplov/birds-app")
                 }
             }
         }
     }
-    // публикуем на удаленный репозиторий, для публикации в localMaven эта секция не нужна
+    // публикуем на удаленный репозиторий (для публикации в localMaven эта секция не нужна)
     repositories {
-        val repoHost: String? = System.getenv("NEXUS_HOST")
-        val repoUser: String? = System.getenv("NEXUS_USER") ?: System.getenv("GITHUB_ACTOR")
-        val repoPass: String? = System.getenv("NEXUS_PASS") ?: System.getenv("GITHUB_TOKEN")
-        if (repoHost != null && repoUser != null && repoPass != null) {
+        val repoHost = "https://maven.pkg.github.com/serjteplov/birds-app"
+        val repoUser: String? = System.getenv("GITHUB_ACTOR")
+        val repoPass: String? = System.getenv("GITHUB_TOKEN")
+        if (repoUser != null && repoPass != null) {
             println("REPO: $repoHost USER: $repoUser")
             maven {
                 name = "GitHubPackages"

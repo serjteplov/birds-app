@@ -98,14 +98,14 @@ fun BirdsContext.fromTransport(request: TweetFilterRequest) {
 }
 
 fun TweetFilterInterval.toInternal() = BirdsFilterPeriod(
-    from = from?.let { LocalDateTime.parse(it).toInstant(TimeZone.currentSystemDefault()) } ?: Instant.NONE,
-    to = to?.let { LocalDateTime.parse(it).toInstant(TimeZone.currentSystemDefault()) } ?: Instant.NONE
+    from = from?.let { LocalDateTime.parse(it).toInstant(TimeZone.UTC) } ?: Instant.NONE,
+    to = to?.let { LocalDateTime.parse(it).toInstant(TimeZone.UTC) } ?: Instant.NONE
 )
 
 fun BirdsContext.fromTransport(request: TweetSearchRequest) {
     command = BirdsCommand.SEARCH
     requestId = request.requestId()
-    tweetFilterRequest = request.tweetFilter.toInternal()
+    tweetSearchRequest = request.tweetFilter.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
