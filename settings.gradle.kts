@@ -10,11 +10,6 @@ pluginManagement {
     }
 }
 
-//include("m1l1-quickstart")
-//include("m1l3-oop")
-//include("m1l4-dsl")
-//include("m1l5-coroutines")
-//include("m1l6-flow")
 include("birds-app-common")
 include("birds-app-api-v1")
 include("birds-app-api-base-v1")
@@ -24,3 +19,5 @@ include("birds-app-kafka")
 include("birds-app-serverless")
 include("birds-app-lib-cor")
 include("birds-app-biz")
+include("birds-app-lib-logging-common")
+include("birds-app-lib-logging-logback")
