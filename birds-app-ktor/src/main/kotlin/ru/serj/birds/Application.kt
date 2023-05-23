@@ -15,10 +15,12 @@ import ru.serj.birds.route.birdsCreate
 import ru.serj.birds.route.birdsDelete
 import ru.serj.birds.route.birdsFilter
 import ru.serj.birds.route.birdsSearch
+import ru.serj.birds.settings.AppSettings
+import ru.serj.birds.settings.initAppSettings
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-fun Application.module() {
+fun Application.module(settings: AppSettings = initAppSettings()) {
     install(CachingHeaders)
     install(DefaultHeaders)
     install(AutoHeadResponse)
@@ -37,8 +39,8 @@ fun Application.module() {
     routing {
         route("/bird/v1") {
             post("create") {
-                call.application.environment.log.info("Hello !")
-                call.birdsCreate()
+                call.application.environment.log.info("Ktor log says Hello!")
+                call.birdsCreate(settings)
             }
             post("filter") {
                 call.birdsFilter()

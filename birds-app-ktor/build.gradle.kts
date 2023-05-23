@@ -15,8 +15,13 @@ application {
 
 dependencies {
 
+    implementation(kotlin("stdlib"))
+
     implementation(project(":birds-app-api-v1"))
     implementation(project(":birds-app-common"))
+    implementation(project(":birds-app-lib-logging-logback"))
+    implementation(project(":birds-app-lib-logging-kermit"))
+    implementation(project(":birds-app-lib-logging-common"))
     implementation(project(":birds-app-mappers"))
     implementation(project(":birds-app-biz"))
 
@@ -33,8 +38,11 @@ dependencies {
     implementation("io.ktor:ktor-server-caching-headers-jvm:$ktorVersion")
     implementation("io.ktor:ktor-server-locations-jvm:$ktorVersion")
 
-    implementation(kotlin("stdlib"))
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("com.sndyuk:logback-more-appenders:1.8.8")
+    implementation("org.fluentd:fluent-logger:0.3.4")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.3")
+
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinDatetime")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
