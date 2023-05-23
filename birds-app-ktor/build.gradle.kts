@@ -2,21 +2,48 @@ val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val kotlinDatetime: String by project
+val javaVersion = project.properties["birds.app.jvmTarget"] as String
 
 plugins {
     application
     kotlin("jvm")
     id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.ktor.plugin")
 }
 
 application {
     mainClass.set("ru.serj.birds.ApplicationKt")
 }
 
+ktor {
+    docker {
+        localImageName.set(project.name)
+        imageTag.set(project.version.toString())
+        jreVersion.set(io.ktor.plugin.features.JreVersion.valueOf("JRE_$javaVersion"))
+    }
+}
+
+repositories {
+    mavenLocal()
+    // в данном репозитории лежит birds-app-api-base-v1
+    maven {
+        url = uri("https://maven.pkg.github.com/serjteplov/birds-app")
+        val githubUsername = System.getenv("GITHUB_ACTOR")
+        val githubToken = System.getenv("GITHUB_TOKEN")
+        githubUsername?.let {
+            credentials {
+                username = githubUsername
+                password = githubToken
+            }
+        }
+    }
+}
+
 dependencies {
 
     implementation(kotlin("stdlib"))
 
+    implementation("ru.serj:birds-app-api-base-v1:${project.version}")
     implementation(project(":birds-app-api-v1"))
     implementation(project(":birds-app-common"))
     implementation(project(":birds-app-lib-logging-logback"))

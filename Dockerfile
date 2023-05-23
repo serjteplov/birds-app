@@ -1,3 +1,5 @@
+#Данный файл не используется. Вместо него докер образ делается плагином в модуле ktor
+#Образ публикуется командой gradle publishImageToLocalRegistry
 FROM gradle:jdk11 as builder
 MAINTAINER serj.teplov@gmail.com
 WORKDIR /app
