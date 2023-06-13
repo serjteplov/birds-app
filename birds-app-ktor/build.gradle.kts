@@ -2,6 +2,10 @@ val ktorVersion: String by project
 val kotlinVersion: String by project
 val logbackVersion: String by project
 val kotlinDatetime: String by project
+val moreAppendersLogbackVersion: String by project
+val fluentdLoggerVersion: String by project
+val logstashEncoderVersion: String by project
+val mockkVersion: String by project
 val javaVersion = project.properties["birds.app.jvmTarget"] as String
 
 plugins {
@@ -51,6 +55,9 @@ dependencies {
     implementation(project(":birds-app-lib-logging-common"))
     implementation(project(":birds-app-mappers"))
     implementation(project(":birds-app-biz"))
+    implementation(project(":birds-app-domain-ehcache"))
+    implementation(project(":birds-app-domain-postgres"))
+    implementation(project(":birds-app-domain"))
 
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm:$ktorVersion")
     implementation("io.ktor:ktor-serialization-jackson-jvm:$ktorVersion")
@@ -66,15 +73,14 @@ dependencies {
     implementation("io.ktor:ktor-server-locations-jvm:$ktorVersion")
 
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("com.sndyuk:logback-more-appenders:1.8.8")
-    implementation("org.fluentd:fluent-logger:0.3.4")
-    implementation("net.logstash.logback:logstash-logback-encoder:7.3")
+    implementation("com.sndyuk:logback-more-appenders:$moreAppendersLogbackVersion")
+    implementation("org.fluentd:fluent-logger:$fluentdLoggerVersion")
+    implementation("net.logstash.logback:logstash-logback-encoder:$logstashEncoderVersion")
 
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinDatetime")
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktorVersion")
     testImplementation("io.ktor:ktor-server-test-host:$ktorVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
     testImplementation(kotlin("test-junit"))
+    testImplementation("io.mockk:mockk:$mockkVersion")
 }

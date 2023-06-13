@@ -43,13 +43,13 @@ fun Application.module(settings: AppSettings = initAppSettings()) {
                 call.birdsCreate(settings)
             }
             post("filter") {
-                call.birdsFilter()
+                call.birdsFilter(settings)
             }
             post("delete") {
-                call.birdsDelete()
+                call.birdsDelete(settings)
             }
             post("search") {
-                call.birdsSearch()
+                call.birdsSearch(settings)
             }
         }
     }

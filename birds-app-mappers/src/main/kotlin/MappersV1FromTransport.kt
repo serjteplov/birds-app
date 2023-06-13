@@ -1,9 +1,7 @@
-import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
+import kotlinx.datetime.*
 import models.*
 import ru.serj.api.v1.models.*
+import java.util.UUID
 
 fun BirdsContext.fromTransport(request: TRequest) = when (request) {
     is TweetCreateRequest -> fromTransport(request)
@@ -51,10 +49,14 @@ fun TweetDebug?.transportToStubCase() = when (this?.stub) {
 }
 
 fun TweetCreateObject?.toInternal() = BirdsTweet(
+    id = BirdsTweetId(UUID.randomUUID().toString()),
     text = this?.text ?: "",
     containsMedia = this?.containsMedia ?: false,
     type = this?.reply.fromTransport(),
     visibility = this?.visibility.fromTransport(),
+    createdAt = Clock.System.now(),
+    // TODO здесь должен передаваться ownerId
+    // TODO здесь должны передаваться permissions
 )
 
 fun TweetSearchText?.toInternal() = BirdsTweetSearch(

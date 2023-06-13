@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    image: birds-app-ktor:0.0.5
+    image: birds-app-ktor:0.0.7
     ports:
       - "8080:8080"
     depends_on:
@@ -11,6 +11,29 @@ services:
       - LOGS_FB_PORT=24224
       - SERVICE_NAME=birds-app-ktor
       - LOG_COMMON_LEVEL=info
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASS=postgres
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    volumes:
+      - postgres_data:/home/serg/Videos/data
+    ports:
+      - "9432:5432"
+    expose:
+      - "9432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: tweets
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   fluent-bit:
     container_name: fluent-bit
@@ -62,3 +85,4 @@ services:
 
 volumes:
   opensearch-data:
+  postgres_data:

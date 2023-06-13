@@ -1,7 +1,11 @@
+import io.mockk.every
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
 import kotlinx.datetime.Instant
 import models.*
 import org.junit.Test
 import ru.serj.api.v1.models.*
+import java.util.UUID
 import kotlin.test.assertEquals
 
 internal class MappersV1FromTransportTest {
@@ -31,6 +35,8 @@ internal class MappersV1FromTransportTest {
         )
 
         // when
+        mockkStatic(UUID::class)
+        every { UUID.randomUUID() } returns UUID.fromString("809ad85a-87a7-4d5a-8768-d78ae79fbeb9")
         context.fromTransport(request)
 
         // then
@@ -39,7 +45,9 @@ internal class MappersV1FromTransportTest {
         assertEquals(context.workMode, BirdsWorkMode.TEST)
         assertEquals(context.stubCase, BirdsStubs.SUCCESS)
         assertEquals(context.requestId, BirdsRequestId("requestId"))
-        assertEquals(context.tweetRequest, birdsTweet)
+        assertEquals(context.tweetRequest.id, BirdsTweetId("809ad85a-87a7-4d5a-8768-d78ae79fbeb9"))
+        assertEquals(context.tweetRequest.text, birdsTweet.text)
+        unmockkStatic(UUID::class)
     }
 
     @Test

@@ -4,3 +4,5 @@ ktor:
     port: "$PORT:8080"
 logging:
   provider: "logback"
+dbms:
+  vendor: in-memory

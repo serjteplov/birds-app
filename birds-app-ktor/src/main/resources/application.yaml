@@ -6,3 +6,12 @@ ktor:
     port: "$PORT:8080"
 logging:
   provider: "logback"
+dbms:
+  vendor: postgres
+  user: "$DB_USER:bob"
+  password: "$DB_PASS:123"
+  database: tweets
+  driver: org.postgresql.Driver
+  dbhost: "$DB_HOST:localhost"
+  dbport: "$DB_PORT:5432"
+  url: "jdbc:postgresql://"

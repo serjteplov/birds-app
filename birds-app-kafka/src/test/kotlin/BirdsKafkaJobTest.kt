@@ -51,7 +51,7 @@ class BirdsKafkaJobTest {
         assertEquals(1, mockProducer.history().size)
         assertEquals("requestId", mockProducer.history()[0].key())
         assertEquals(
-            "{\"responseType\":\"search\",\"requestId\":\"requestId\",\"result\":\"success\"}",
+            "{\"responseType\":\"search\",\"requestId\":\"requestId\",\"result\":\"success\",\"tweets\":[]}",
             mockProducer.history()[0].value()
         )
     }

@@ -1,7 +1,6 @@
-val kotlinVersion: String by project
 val logbackVersion: String by project
-val jacksonVersion: String by project
 val kotlinDatetime: String by project
+val logstashEncoderVersion: String by project
 
 plugins {
     kotlin("jvm")
@@ -13,13 +12,9 @@ dependencies {
     implementation(project(":birds-app-common"))
     implementation(project(":birds-app-lib-logging-common"))
 
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinDatetime")
-    implementation("net.logstash.logback:logstash-logback-encoder:7.3")
+    implementation("net.logstash.logback:logstash-logback-encoder:$logstashEncoderVersion")
 
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
-    testImplementation("org.jetbrains.kotlin:kotlin-test:$kotlinVersion")
     testImplementation(kotlin("test-junit"))
 }

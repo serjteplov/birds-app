@@ -7,16 +7,18 @@ import kotlinx.datetime.Instant
 import models.*
 import models.BirdsState.FAILED
 import org.junit.Test
-
 import org.junit.jupiter.api.Assertions.*
 import ru.serj.biz.stubs.tweetResponseStub
+import ru.serj.`in`.memory.repository.InMemoryTweetRepository
 
 internal class BirdsMainProcessorTest {
+
+    private val repository: InMemoryTweetRepository = InMemoryTweetRepository()
 
     @Test
     fun `create request should work`() = runBlocking {
         // given
-        val processor = BirdsMainProcessor()
+        val processor = BirdsMainProcessor(repository)
         val ctx = BirdsContext(
             command = BirdsCommand.CREATE,
             state = BirdsState.NONE,
@@ -52,7 +54,7 @@ internal class BirdsMainProcessorTest {
     @Test
     fun `large tweet should fail`() = runBlocking {
         // given
-        val processor = BirdsMainProcessor()
+        val processor = BirdsMainProcessor(repository)
         val ctx = BirdsContext(
             command = BirdsCommand.CREATE,
             state = BirdsState.NONE,
@@ -86,7 +88,7 @@ internal class BirdsMainProcessorTest {
     @Test
     fun `bad description stub`() = runBlocking {
         // given
-        val processor = BirdsMainProcessor()
+        val processor = BirdsMainProcessor(repository)
         val ctx = BirdsContext(
             command = BirdsCommand.CREATE,
             state = BirdsState.NONE,
