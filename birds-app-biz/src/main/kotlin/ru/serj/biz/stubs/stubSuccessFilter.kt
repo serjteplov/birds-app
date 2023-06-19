@@ -9,8 +9,7 @@ fun BaseChainDsl<BirdsContext>.stubSuccessFilter(name: String) =
         title = name
 
         on {
-            state == BirdsState.RUNNING &&
-                    (stubCase == BirdsStubs.SUCCESS || stubCase == BirdsStubs.NONE) }
+            state == BirdsState.RUNNING && stubCase == BirdsStubs.SUCCESS }
 
         handle {
             state = BirdsState.DONE

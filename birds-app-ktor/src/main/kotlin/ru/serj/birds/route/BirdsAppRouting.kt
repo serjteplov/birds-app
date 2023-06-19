@@ -6,22 +6,27 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import ru.serj.api.v1.models.*
-import ru.serj.biz.processor.BirdsMainProcessor
+import ru.serj.birds.settings.AppSettings
 import toTransport
 
-val processor = BirdsMainProcessor()
 
-suspend fun ApplicationCall.birdsCreate() {
-    val req = receive<TweetCreateRequest>()
-    val birdsContext = BirdsContext()
-    birdsContext.fromTransport(req)
-    processor.process(birdsContext)
-    val tweetCreateResponse = birdsContext.toTransport() as TweetCreateResponse
-    respond(tweetCreateResponse)
+suspend fun ApplicationCall.birdsCreate(settings: AppSettings) {
+    val logger = settings.logSettings.loggerProvider.getLogger("Прокинул!!!")
+    val processor = settings.corSettings
+    logger.doWithLogging {
+        val req = receive<TweetCreateRequest>()
+        val birdsContext = BirdsContext()
+        birdsContext.fromTransport(req)
+        logger.info(msg = "this is data", data = birdsContext)
+        processor.process(birdsContext)
+        val tweetCreateResponse = birdsContext.toTransport() as TweetCreateResponse
+        respond(tweetCreateResponse)
+    }
 }
 
-suspend fun ApplicationCall.birdsFilter() {
+suspend fun ApplicationCall.birdsFilter(settings: AppSettings) {
     val req = receive<TweetFilterRequest>()
+    val processor = settings.corSettings
     val birdsContext = BirdsContext()
     birdsContext.fromTransport(req)
     processor.process(birdsContext)
@@ -29,8 +34,9 @@ suspend fun ApplicationCall.birdsFilter() {
     respond(tweetFilterResponse)
 }
 
-suspend fun ApplicationCall.birdsSearch() {
+suspend fun ApplicationCall.birdsSearch(settings: AppSettings) {
     val req = receive<TweetSearchRequest>()
+    val processor = settings.corSettings
     val birdsContext = BirdsContext()
     birdsContext.fromTransport(req)
     processor.process(birdsContext)
@@ -38,8 +44,9 @@ suspend fun ApplicationCall.birdsSearch() {
     respond(tweetSearchResponse)
 }
 
-suspend fun ApplicationCall.birdsDelete() {
+suspend fun ApplicationCall.birdsDelete(settings: AppSettings) {
     val req = receive<TweetDeleteRequest>()
+    val processor = settings.corSettings
     val birdsContext = BirdsContext()
     birdsContext.fromTransport(req)
     processor.process(birdsContext)

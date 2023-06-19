@@ -4,7 +4,6 @@ import models.BirdsTweet
 import models.BirdsTweetId
 import models.BirdsUserId
 
-
 val tweetResponseStub = BirdsTweet(
     id = BirdsTweetId("tweetId"),
     text = "Cool birds tweet",

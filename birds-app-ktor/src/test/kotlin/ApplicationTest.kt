@@ -3,16 +3,17 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.testing.*
+import io.mockk.every
+import io.mockk.mockkStatic
 import org.junit.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.serj.api.v1.models.*
-import ru.serj.api.v1.models.TweetPermissions.READ
-import ru.serj.api.v1.models.TweetPermissions.UPDATE
+import ru.serj.api.v1.models.TweetRequestDebugMode.TEST
 import ru.serj.birds.module
+import java.util.*
 import kotlin.test.assertEquals
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation as ClientNegotiation
-
 
 class ApplicationTest {
 
@@ -24,7 +25,8 @@ class ApplicationTest {
         application {
             module()
         }
-
+        mockkStatic(UUID::class)
+        every { UUID.randomUUID() } returns UUID.fromString("809ad85a-87a7-4d5a-8768-d78ae79fbeb9")
         val ktorClient = createTestClient()
 
         val response = ktorClient.post("/bird/v1/create") {
@@ -33,8 +35,9 @@ class ApplicationTest {
                 TweetCreateRequest(
                     requestType = "create",
                     requestId = "requestId",
+                    debug = TweetDebug(mode = TEST),
                     tweet = TweetCreateObject(
-                        text = "test"
+                        text = "Cool birds tweet"
                     )
                 )
             )
@@ -49,10 +52,10 @@ class ApplicationTest {
         assertEquals(false, res.containsMedia)
         assertEquals(false, res.reply)
         assertEquals(TweetVisibility.PUBLIC, res.visibility)
-        assertEquals("tweetId", res.id)
-        assertEquals("userId", res.ownerId)
+        assertEquals("809ad85a-87a7-4d5a-8768-d78ae79fbeb9", res.id)
+        assertEquals("", res.ownerId)
         assertEquals("", res.version)
-        assertEquals(setOf(UPDATE, READ), res.permissions)
+        assertEquals(null, res.permissions)
     }
 
     @Test
@@ -70,6 +73,7 @@ class ApplicationTest {
                 TweetDeleteRequest(
                     requestType = "delete",
                     requestId = "requestId",
+                    debug = TweetDebug(mode = TEST),
                     tweetDelete = TweetDeleteObject(
                         id = "idToDelete",
                         version = "5"
@@ -83,8 +87,8 @@ class ApplicationTest {
         val res: TweetDeleteResponse = response.body()
         assertEquals("requestId", res.requestId)
         assertEquals(ResponseResult.SUCCESS, res.result)
-        assertEquals("tweetId", res.id)
-        assertEquals("userId", res.ownerId)
+        assertEquals("idToDelete", res.id)
+        assertEquals("", res.ownerId)
     }
 
     @Test
@@ -102,6 +106,7 @@ class ApplicationTest {
                 TweetFilterRequest(
                     requestType = "filter",
                     requestId = "requestId",
+                    debug = TweetDebug(mode = TEST),
                     interval = TweetFilterInterval(
                         from = "2023-03-22T04:36:26",
                         to = "2023-03-22T05:36:26"
@@ -115,14 +120,8 @@ class ApplicationTest {
         val res: TweetFilterResponse = response.body()
         assertEquals("requestId", res.requestId)
         assertEquals(ResponseResult.SUCCESS, res.result)
-        assertEquals("Cool birds tweet", res.tweets?.get(0)?.text)
-        assertEquals(false, res.tweets?.get(0)?.containsMedia)
-        assertEquals(false, res.tweets?.get(0)?.reply)
-        assertEquals(TweetVisibility.PUBLIC, res.tweets?.get(0)?.visibility)
-        assertEquals("tweetId", res.tweets?.get(0)?.id)
-        assertEquals("userId", res.tweets?.get(0)?.ownerId)
-        assertEquals("", res.tweets?.get(0)?.version)
-        assertEquals(setOf(READ, UPDATE), res.tweets?.get(0)?.permissions)
+        assertEquals(emptyList(), res.tweets)
+        assertEquals(null, res.errors)
     }
 
     @Test
@@ -140,6 +139,7 @@ class ApplicationTest {
                 TweetSearchRequest(
                     requestType = "search",
                     requestId = "requestId",
+                    debug = TweetDebug(mode = TEST),
                     tweetFilter = TweetSearchText(
                         searchString = "google"
                     )
@@ -152,14 +152,8 @@ class ApplicationTest {
         val res: TweetSearchResponse = response.body()
         assertEquals("requestId", res.requestId)
         assertEquals(ResponseResult.SUCCESS, res.result)
-        assertEquals("Cool birds tweet", res.tweets?.get(0)?.text)
-        assertEquals(false, res.tweets?.get(0)?.containsMedia)
-        assertEquals(false, res.tweets?.get(0)?.reply)
-        assertEquals(TweetVisibility.PUBLIC, res.tweets?.get(0)?.visibility)
-        assertEquals("tweetId", res.tweets?.get(0)?.id)
-        assertEquals("userId", res.tweets?.get(0)?.ownerId)
-        assertEquals("", res.tweets?.get(0)?.version)
-        assertEquals(setOf(READ, UPDATE), res.tweets?.get(0)?.permissions)
+        assertEquals(emptyList(), res.tweets)
+        assertEquals(null, res.errors)
     }
 
     private fun ApplicationTestBuilder.createTestClient() = createClient {

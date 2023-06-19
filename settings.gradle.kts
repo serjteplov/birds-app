@@ -3,18 +3,15 @@ rootProject.name = "birds-app"
 pluginManagement {
     val kotlinVersion: String by settings
     val openapiVersion: String by settings
+    val ktorVersion: String by settings
     plugins {
-        kotlin("jvm") version kotlinVersion
+        kotlin("jvm") version kotlinVersion apply false
         kotlin("plugin.serialization") version kotlinVersion apply false
         id("org.openapi.generator") version openapiVersion apply false
+        id("io.ktor.plugin") version ktorVersion apply false
     }
 }
 
-//include("m1l1-quickstart")
-//include("m1l3-oop")
-//include("m1l4-dsl")
-//include("m1l5-coroutines")
-//include("m1l6-flow")
 include("birds-app-common")
 include("birds-app-api-v1")
 include("birds-app-api-base-v1")
@@ -24,3 +21,9 @@ include("birds-app-kafka")
 include("birds-app-serverless")
 include("birds-app-lib-cor")
 include("birds-app-biz")
+include("birds-app-lib-logging-common")
+include("birds-app-lib-logging-logback")
+include("birds-app-lib-logging-kermit")
+include("birds-app-domain")
+include("birds-app-domain-ehcache")
+include("birds-app-domain-postgres")

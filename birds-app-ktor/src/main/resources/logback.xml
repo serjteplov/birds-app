@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+
+    <property name="LOGS_FB_HOSTS" value="${LOGS_FB_HOSTS:-127.0.0.1}"/>
+    <property name="LOGS_FB_PORT" value="${LOGS_FB_PORT:-24224}"/>
+    <property name="LOG_COMMON_LEVEL" value="${LOG_COMMON_LEVEL:-error}"/>
+    <property name="SERVICE_NAME" value="${SERVICE_NAME:-not}"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level[%marker] %logger{36} - %msg%n%mdc%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FLUENT_TEXT" class="ch.qos.logback.more.appenders.DataFluentAppender">
+        <tag>dab</tag>
+        <label>normal</label>
+        <remoteHost>${LOGS_FB_HOSTS}</remoteHost>
+        <port>${LOGS_FB_PORT}</port>
+        <maxQueueSize>20</maxQueueSize>
+
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <version/>
+                <pattern>
+                    <pattern>
+                        {
+                        "component": "${SERVICE_NAME}",
+                        "container-id": "${HOSTNAME}"
+                        }
+                    </pattern>
+                </pattern>
+                <message/>
+                <loggerName/>
+                <threadName/>
+                <logLevel/>
+                <logstashMarkers/>
+                <callerData/>
+                <stackTrace/>
+                <context/>
+                <mdc/>
+                <logstashMarkers/>
+                <arguments/>
+                <tags/>
+            </providers>
+<!--            <providers>-->
+<!--                <timestamp/>-->
+<!--                <version/>-->
+<!--                <message>-->
+<!--                    <fieldName>customMessage</fieldName>-->
+<!--                </message>-->
+<!--                <loggerName>-->
+<!--                    <shortenedLoggerNameLength>20</shortenedLoggerNameLength>-->
+<!--                </loggerName>-->
+<!--                <threadName/>-->
+<!--                <logLevel/>-->
+<!--                <logLevelValue/>-->
+<!--                <callerData>-->
+<!--                    <fieldName>caller</fieldName>-->
+<!--                    <classFieldName>class</classFieldName>-->
+<!--                    <methodFieldName>method</methodFieldName>-->
+<!--                    <fileFieldName>file</fileFieldName>-->
+<!--                    <lineFieldName>line</lineFieldName>-->
+<!--                </callerData>-->
+<!--                <stackTrace>-->
+<!--                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">-->
+<!--                        <maxDepthPerThrowable>20</maxDepthPerThrowable>-->
+<!--                        <maxLength>1000</maxLength>-->
+<!--                        <shortenedClassNameLength>30</shortenedClassNameLength>-->
+<!--                        <rootCauseFirst>true</rootCauseFirst>-->
+<!--                        <exclusions>excluded1,excluded2</exclusions>-->
+<!--                        <inlineHash>true</inlineHash>-->
+<!--                    </throwableConverter>-->
+<!--                </stackTrace>-->
+<!--                <context/>-->
+<!--                <contextName/>-->
+<!--                <mdc>-->
+<!--                    <includeMdcKeyName>included</includeMdcKeyName>-->
+<!--                    <mdcKeyFieldName>key=renamedKey</mdcKeyFieldName>-->
+<!--                </mdc>-->
+<!--                <globalCustomFields>-->
+<!--                    <customFields>{"customName":"customValue"}</customFields>-->
+<!--                </globalCustomFields>-->
+<!--                <tags/>-->
+<!--                <logstashMarkers/>-->
+<!--                <pattern>-->
+<!--                    <omitEmptyFields>true</omitEmptyFields>-->
+<!--                    <pattern>{"patternName":"patternValue","relativeTime":"#asLong{%relative}"}</pattern>-->
+<!--                </pattern>-->
+<!--                <provider/>-->
+<!--                <arguments>-->
+<!--                    <includeNonStructuredArguments>true</includeNonStructuredArguments>-->
+<!--                    <nonStructuredArgumentsFieldPrefix>prefix</nonStructuredArgumentsFieldPrefix>-->
+<!--                </arguments>-->
+<!--                <throwableClassName/>-->
+<!--                <throwableRootCauseClassName>-->
+<!--                    <useSimpleClassName>false</useSimpleClassName>-->
+<!--                </throwableRootCauseClassName>-->
+<!--            </providers>-->
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>/home/serg/testFile.log</file>
+        <append>true</append>
+        <immediateFlush>true</immediateFlush>
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <version/>
+                <loggerName/>
+                <message/>
+                <threadName/>
+                <logLevel/>
+                <logLevelValue/>
+                <callerData>
+                    <fieldName>caller</fieldName>
+                    <classFieldName>class</classFieldName>
+                    <methodFieldName>method</methodFieldName>
+                    <fileFieldName>file</fileFieldName>
+                    <lineFieldName>line</lineFieldName>
+                </callerData>
+                <stackTrace>
+                    <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                        <maxDepthPerThrowable>20</maxDepthPerThrowable>
+                        <maxLength>1000</maxLength>
+                        <shortenedClassNameLength>30</shortenedClassNameLength>
+                        <rootCauseFirst>true</rootCauseFirst>
+                        <exclusions>excluded1,excluded2</exclusions>
+                        <inlineHash>true</inlineHash>
+                    </throwableConverter>
+                </stackTrace>
+                <context/>
+                <contextName/>
+                <tags/>
+                <logstashMarkers/>
+                <pattern>
+                    <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>{"patternName":"patternValue","relativeTime":"#asLong{%relative}"}</pattern>
+                </pattern>
+                <provider/>
+                <arguments>
+                    <includeNonStructuredArguments>true</includeNonStructuredArguments>
+                    <nonStructuredArgumentsFieldPrefix>prefix</nonStructuredArgumentsFieldPrefix>
+                </arguments>
+                <throwableClassName/>
+            </providers>
+        </encoder>
+    </appender>
+
+    <root level="${LOG_COMMON_LEVEL}">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FLUENT_TEXT" />
+    </root>
+</configuration>
