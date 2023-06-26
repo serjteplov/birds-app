@@ -10,6 +10,10 @@ birds app
 6. docker compose up
 7. docker compose -f docker-compose-keycloak.yml up --force-recreate keycloak postgreskey
 
+## Логин пользователем
+http://localhost:8081/auth/realms/otus-marketplace/account/#/
+
+
 ## Предназначение
 социальная сеть обмена короткими сообщениями
 

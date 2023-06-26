@@ -3,8 +3,12 @@ version: '3'
 volumes:
   opensearch-data:
   postgres_data2:
+  postgres_data:
+networks:
+  local-keycloak:
 
 services:
+
   app:
     image: birds-app-ktor:0.0.8
     ports:
@@ -15,19 +19,57 @@ services:
       - LOGS_FB_HOSTS=fluent-bit
       - LOGS_FB_PORT=24224
       - SERVICE_NAME=birds-app-ktor
-      - LOG_COMMON_LEVEL=info
+      - LOG_COMMON_LEVEL=debug
       - DB_HOST=postgres
-      - DB_PORT=9432
+      - DB_PORT=5433
       - DB_USER=postgres
       - DB_PASS=postgres
+      - KEYCLOAK_BASE_URL=http://keycloak:8080
+    networks:
+      - local-keycloak
+
+  postgreskey:
+    image: postgres:13.2
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/home/serg/Videos/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    networks:
+      - local-keycloak
+
+  keycloak:
+    depends_on:
+      - postgreskey
+    container_name: local_keycloak
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: postgreskey
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: "/tmp/realm-export.json"
+    volumes:
+      - ./keycloak:/tmp
+    image: jboss/keycloak
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+    networks:
+      - local-keycloak
 
   postgres:
     image: postgres
     container_name: postgres
     volumes:
       - postgres_data2:/home/serg/Videos/data
+    command: -p 5433
     ports:
-      - "9432:5432"
+      - "9432:5433"
     expose:
       - "9432"
     environment:
@@ -39,6 +81,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - local-keycloak
 
   fluent-bit:
     container_name: fluent-bit
@@ -54,6 +98,8 @@ services:
     volumes:
       - ./volumes/fluent-bit-etc/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
       - ./volumes/fluent-bit-etc/parsers.conf:/fluent-bit/etc/parsers.conf
+    networks:
+      - local-keycloak
 
   opensearch:
     container_name: opensearch
@@ -75,6 +121,8 @@ services:
         hard: 65536
     volumes:
       - opensearch-data:/usr/share/opensearch/data
+    networks:
+      - local-keycloak
 
   dashboards:
     image: opensearchproject/opensearch-dashboards:latest
@@ -87,3 +135,5 @@ services:
       OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
     depends_on:
       - opensearch
+    networks:
+      - local-keycloak

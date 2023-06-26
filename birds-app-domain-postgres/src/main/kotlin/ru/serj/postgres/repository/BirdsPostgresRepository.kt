@@ -75,6 +75,15 @@ class BirdsPostgresRepository(
             DbResponse(tweets = tweets)
         }
 
+    override fun findById(request: DbRequest) =
+        wrapped(request) {
+            val op = Op.build {
+                Tweets.id eq UUID.fromString(request.id.asString())
+            }
+            val tweets = BirdsTweetEntity.find { op }.map { it.toBirdsTweet() }
+            DbResponse(tweet = tweets.singleOrNull())
+        }
+
 
     private fun wrapped(request: DbRequest, block: (DbRequest) -> DbResponse): DbResponse {
         return try {

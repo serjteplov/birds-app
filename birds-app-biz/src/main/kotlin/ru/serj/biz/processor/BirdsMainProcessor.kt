@@ -52,6 +52,7 @@ class BirdsMainProcessor(
                     stubOtherCase("Стаб обработки, если не нашелся подходящий вариант")
                 }
                 authorizationVerdict("Блок авторизации") {
+                    requestDeletingObject("Получение удаляемого объекта", repository)
                     calculateRelationEdit("Вычисление отношения principal к запрашиваемому объекту")
                     makeVerdict("Принятие решения авторизации")
                 }

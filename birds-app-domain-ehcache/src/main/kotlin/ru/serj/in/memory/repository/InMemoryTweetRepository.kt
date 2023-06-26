@@ -63,4 +63,8 @@ class InMemoryTweetRepository : BirdsTweetRepository {
                     && it.value.visibility in request.visibilities
         }.map { it.value }
     )
+
+    override fun findById(request: DbRequest) = DbResponse(
+        tweet = cache.get(request.id.asString())
+    )
 }

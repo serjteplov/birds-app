@@ -38,7 +38,7 @@ fun Application.moduleBird(settings: AppSettings = initAppSettings(), authSettin
     install(AutoHeadResponse)
     install(Locations)
     install(CallLogging) {
-        level = Level.DEBUG
+        level = Level.TRACE
     }
     install(ContentNegotiation) {
         jackson {

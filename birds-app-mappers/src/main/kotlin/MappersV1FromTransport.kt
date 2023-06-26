@@ -75,7 +75,7 @@ fun BirdsContext.fromTransport(request: TweetCreateRequest) {
 fun BirdsContext.fromTransport(request: TweetDeleteRequest) {
     command = BirdsCommand.DELETE
     requestId = request.requestId()
-    tweetRequest = request.tweetDelete?.id.toTweetWithId().copy(ownerId = BirdsUserId(principal.id))
+    tweetRequest = request.tweetDelete?.id.toTweetWithId()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }

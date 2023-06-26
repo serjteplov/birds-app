@@ -23,12 +23,13 @@ fun Application.initAppSettings(): AppSettings {
 }
 
 fun Application.getAuth(): AuthSettings {
+    val keycloakBase = environment.config.propertyOrNull("jwt.keycloak")?.getString() ?: ""
     val issuer = environment.config.propertyOrNull("jwt.issuer")?.getString() ?: ""
     val audience = environment.config.propertyOrNull("jwt.audience")?.getString() ?: ""
     val realm = environment.config.propertyOrNull("jwt.realm")?.getString() ?: ""
     val secret = environment.config.propertyOrNull("jwt.secret")?.getString() ?: ""
     val certPath = environment.config.propertyOrNull("jwt.certPath")?.getString() ?: ""
-    return AuthSettings(issuer, audience, realm, secret, certPath)
+    return AuthSettings(keycloakBase+issuer, audience, realm, secret, keycloakBase+certPath)
 }
 
 fun Application.chooseLoggingProvider(): LoggingProvider {

@@ -92,7 +92,10 @@ fun BaseChainDsl<BirdsContext>.makeVerdict(name: String) =
             val relation = principalRelations.single()
             val filteredPermissions = principal.permissions
                 .map { it.toString() }
-                .filter { it.contains(command.toString()) }
+                .filter {
+                    val com = if (command in listOf(FILTER, SEARCH)) "READ" else command.toString()
+                    it.contains(com)
+                }
             val check1 = filteredPermissions
                 .any { it.contains("MODERATOR") }
             if (check1) {
@@ -103,6 +106,13 @@ fun BaseChainDsl<BirdsContext>.makeVerdict(name: String) =
             // EDIT
             if (command in listOf(CREATE, DELETE) && filteredPermissions.isEmpty()) {
                 authorized = false
+                errors = mutableListOf(
+                    BirdsError(
+                        code = "SECURITY_PROBLEM",
+                        group = "Authorization",
+                        message = "User ${principal.id} not authorized for this action"
+                    )
+                )
                 return@handle
             }
             if (command in listOf(CREATE, DELETE) && filteredPermissions.isNotEmpty() && relation == OWNER) {
@@ -111,12 +121,26 @@ fun BaseChainDsl<BirdsContext>.makeVerdict(name: String) =
             }
             if (command in listOf(CREATE, DELETE) && filteredPermissions.isNotEmpty() && relation != OWNER) {
                 authorized = false
+                errors = mutableListOf(
+                    BirdsError(
+                        code = "SECURITY_PROBLEM",
+                        group = "Authorization",
+                        message = "User ${principal.id} not authorized for this action"
+                    )
+                )
                 return@handle
             }
 
             // READ
             if (command in listOf(FILTER, SEARCH) && filteredPermissions.isEmpty()) {
                 authorized = false
+                errors = mutableListOf(
+                    BirdsError(
+                        code = "SECURITY_PROBLEM",
+                        group = "Authorization",
+                        message = "User ${principal.id} not authorized for this action"
+                    )
+                )
                 return@handle
             }
             if (command in listOf(FILTER, SEARCH) && filteredPermissions.isNotEmpty() && relation == OWNER) {
@@ -164,7 +188,7 @@ fun BirdsContext.resolveFrontPermissions(): Set<BirdsTweetPermission> {
     return emptySet()
 }
 
-val table: Map<BirdsPrincipalRelation,List<BirdsTweetPermission>> = mapOf(
+val table: Map<BirdsPrincipalRelation, List<BirdsTweetPermission>> = mapOf(
     OWNER to listOf(CREATE_USERS, READ_USERS, UPDATE_USERS, DELETE_USERS),
     FOLLOWER to listOf(READ_USERS),
     NONE to listOf(READ_GUESTS, READ_USERS, READ_MODERATORS, UPDATE_MODERATORS, DELETE_MODERATORS)

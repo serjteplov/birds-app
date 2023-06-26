@@ -105,8 +105,8 @@ class ApplicationTest {
         val res: TweetDeleteResponse = response.body()
         assertEquals("requestId", res.requestId)
         assertEquals(ResponseResult.SUCCESS, res.result)
-        assertEquals("idToDelete", res.id)
-        assertEquals(USER_ID, res.ownerId)
+        assertEquals("", res.id)
+        assertEquals("", res.ownerId)
     }
 
     @Test

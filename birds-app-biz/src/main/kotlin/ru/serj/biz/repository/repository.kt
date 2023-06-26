@@ -3,6 +3,7 @@ package ru.serj.biz.repository
 import BirdsContext
 import models.BirdsState
 import models.BirdsStubs
+import models.BirdsTweet
 import models.BirdsWorkMode
 import ru.serj.domain.entity.DbRequest
 import ru.serj.domain.repository.BirdsTweetRepository
@@ -58,6 +59,26 @@ fun BaseChainDsl<BirdsContext>.filterTweetByDate(name: String, repo: BirdsTweetR
             if (res.errors.isEmpty()) {
                 state = BirdsState.DONE
                 tweetMultiResponse = res.tweets.toMutableList()
+            }
+            else {
+                state = BirdsState.FAILED
+                errors = res.errors.map { it.toBirdsError() }.toMutableList()
+            }
+        }
+    }
+
+fun BaseChainDsl<BirdsContext>.requestDeletingObject(name: String, repo: BirdsTweetRepository) =
+    worker {
+        title = name
+        on {
+            state == BirdsState.RUNNING
+                    && stubCase == BirdsStubs.NONE
+                    && (workMode == BirdsWorkMode.TEST || workMode == BirdsWorkMode.PROD)
+        }
+        handle {
+            val res = repo.findById(DbRequest(id = tweetRequest.id))
+            if (res.errors.isEmpty()) {
+                tweetRequest = res.tweet ?: BirdsTweet()
             }
             else {
                 state = BirdsState.FAILED
