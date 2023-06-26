@@ -21,13 +21,16 @@ fun BaseChainDsl<BirdsContext>.saveTweetTemporary(name: String, repo: BirdsTweet
     worker {
         title = name
         on {
-            state == BirdsState.RUNNING && stubCase == BirdsStubs.NONE && workMode == BirdsWorkMode.TEST
+            state == BirdsState.RUNNING
+                    && stubCase == BirdsStubs.NONE
+                    && (workMode == BirdsWorkMode.TEST || workMode == BirdsWorkMode.PROD)
+                    && authorized
         }
         handle {
             val res = repo.createBirdsTweet(DbRequest(tweet = tweetRequest))
             if (res.errors.isEmpty()) {
                 state = BirdsState.DONE
-                tweetResponse = tweetRequest
+                tweetResponse = tweetRequest.copy(permissions = mutableListOf(), version = "1")
             }
             else {
                 state = BirdsState.FAILED
@@ -40,10 +43,18 @@ fun BaseChainDsl<BirdsContext>.filterTweetByDate(name: String, repo: BirdsTweetR
     worker {
         title = name
         on {
-            state == BirdsState.RUNNING && stubCase == BirdsStubs.NONE && workMode == BirdsWorkMode.TEST
+            state == BirdsState.RUNNING
+                    && stubCase == BirdsStubs.NONE
+                    && workMode == BirdsWorkMode.TEST
         }
         handle {
-            val res = repo.filterBirdsTweet(DbRequest(from = tweetFilterPeriod.from, to = tweetFilterPeriod.to))
+            val res = repo.filterBirdsTweet(
+                DbRequest(
+                    from = tweetFilterPeriod.from,
+                    to = tweetFilterPeriod.to,
+                    visibilities = visibilitiesAllowed
+                )
+            )
             if (res.errors.isEmpty()) {
                 state = BirdsState.DONE
                 tweetMultiResponse = res.tweets.toMutableList()
@@ -59,7 +70,10 @@ fun BaseChainDsl<BirdsContext>.deleteTweetFromTemporary(name: String, repo: Bird
     worker {
         title = name
         on {
-            state == BirdsState.RUNNING && stubCase == BirdsStubs.NONE && workMode == BirdsWorkMode.TEST
+            state == BirdsState.RUNNING
+                    && stubCase == BirdsStubs.NONE
+                    && (workMode == BirdsWorkMode.TEST || workMode == BirdsWorkMode.PROD)
+                    && authorized
         }
         handle {
             val res = repo.deleteBirdsTweet(DbRequest(id = tweetRequest.id))
@@ -78,10 +92,17 @@ fun BaseChainDsl<BirdsContext>.simpleTweetSearch(name: String, repo: BirdsTweetR
     worker {
         title = name
         on {
-            state == BirdsState.RUNNING && stubCase == BirdsStubs.NONE && workMode == BirdsWorkMode.TEST
+            state == BirdsState.RUNNING
+                    && stubCase == BirdsStubs.NONE
+                    && workMode == BirdsWorkMode.TEST
         }
         handle {
-            val res = repo.searchBirdsTweet(DbRequest(search = tweetSearchRequest.searchString))
+            val res = repo.searchBirdsTweet(
+                DbRequest(
+                    search = tweetSearchRequest.searchString,
+                    visibilities = visibilitiesAllowed
+                )
+            )
             if (res.errors.isEmpty()) {
                 state = BirdsState.DONE
                 tweetMultiResponse = res.tweets.toMutableList()

@@ -14,8 +14,10 @@ fun BirdsContext.fromTransport(request: TRequest) = when (request) {
 fun String?.toTweetId() = this?.let { BirdsTweetId(it) } ?: BirdsTweetId.NONE
 fun TRequest?.requestId() = this?.requestId?.let { BirdsRequestId(it) } ?: BirdsRequestId.NONE
 fun TweetVisibility?.fromTransport() = when (this) {
-    TweetVisibility.PUBLIC -> BirdsTweetVisibility.VISIBLE_TO_PUBLIC
-    TweetVisibility.FOLLOWERS_ONLY -> BirdsTweetVisibility.VISIBLE_TO_GROUP
+    TweetVisibility.TO_USER -> BirdsTweetVisibility.TO_USER
+    TweetVisibility.TO_OWNER -> BirdsTweetVisibility.TO_OWNER
+    TweetVisibility.TO_GUEST -> BirdsTweetVisibility.TO_GUEST
+    TweetVisibility.TO_FOLLOWER -> BirdsTweetVisibility.TO_FOLLOWER
     else -> BirdsTweetVisibility.NONE
 }
 
@@ -48,15 +50,14 @@ fun TweetDebug?.transportToStubCase() = when (this?.stub) {
     null -> BirdsStubs.NONE
 }
 
-fun TweetCreateObject?.toInternal() = BirdsTweet(
+fun TweetCreateObject?.toInternal(principal: BirdsPrincipal) = BirdsTweet(
     id = BirdsTweetId(UUID.randomUUID().toString()),
     text = this?.text ?: "",
     containsMedia = this?.containsMedia ?: false,
     type = this?.reply.fromTransport(),
     visibility = this?.visibility.fromTransport(),
     createdAt = Clock.System.now(),
-    // TODO здесь должен передаваться ownerId
-    // TODO здесь должны передаваться permissions
+    ownerId = BirdsUserId(principal.id)
 )
 
 fun TweetSearchText?.toInternal() = BirdsTweetSearch(
@@ -66,7 +67,7 @@ fun TweetSearchText?.toInternal() = BirdsTweetSearch(
 fun BirdsContext.fromTransport(request: TweetCreateRequest) {
     command = BirdsCommand.CREATE
     requestId = request.requestId()
-    tweetRequest = request.tweet?.toInternal() ?: BirdsTweet()
+    tweetRequest = request.tweet?.toInternal(principal) ?: BirdsTweet()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
@@ -74,7 +75,7 @@ fun BirdsContext.fromTransport(request: TweetCreateRequest) {
 fun BirdsContext.fromTransport(request: TweetDeleteRequest) {
     command = BirdsCommand.DELETE
     requestId = request.requestId()
-    tweetRequest = request.tweetDelete?.id.toTweetWithId()
+    tweetRequest = request.tweetDelete?.id.toTweetWithId().copy(ownerId = BirdsUserId(principal.id))
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }

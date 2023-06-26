@@ -31,8 +31,8 @@ internal class BirdsMainProcessorTest {
                 containsMedia = false,
                 type = BirdsTweetType.ORIGINAL,
                 ownerId = BirdsUserId("owner-id"),
-                visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
-                permissions = mutableListOf(READ, UPDATE),
+                visibility = BirdsTweetVisibility.TO_GUEST,
+                permissions = mutableListOf(READ_USERS, UPDATE_USERS),
                 version = "1"
             )
         )
@@ -70,8 +70,8 @@ internal class BirdsMainProcessorTest {
                 containsMedia = false,
                 type = BirdsTweetType.ORIGINAL,
                 ownerId = BirdsUserId("owner-id"),
-                visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
-                permissions = mutableListOf(READ, UPDATE),
+                visibility = BirdsTweetVisibility.TO_GUEST,
+                permissions = mutableListOf(READ_USERS, UPDATE_USERS),
                 version = "1"
             )
         )
@@ -101,8 +101,8 @@ internal class BirdsMainProcessorTest {
                 containsMedia = false,
                 type = BirdsTweetType.ORIGINAL,
                 ownerId = BirdsUserId("owner-id"),
-                visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
-                permissions = mutableListOf(READ, UPDATE),
+                visibility = BirdsTweetVisibility.TO_GUEST,
+                permissions = mutableListOf(READ_USERS, UPDATE_USERS),
                 version = "1"
             )
         )

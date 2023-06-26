@@ -51,26 +51,26 @@ class SerializationTest {
                     text = "text1",
                     containsMedia = false,
                     reply = false,
-                    visibility = TweetVisibility.PUBLIC,
+                    visibility = TweetVisibility.TO_USER,
                     id = "12345",
                     ownerId = "6789",
                     version = "tag1",
                     permissions = setOf(
-                        TweetPermissions.UPDATE,
-                        TweetPermissions.READ
+                        TweetPermissions.UPDATE_OWN,
+                        TweetPermissions.READ_OWN
                     )
                 ),
                 TweetSingleResponse(
                     text = "text2",
                     containsMedia = true,
                     reply = false,
-                    visibility = TweetVisibility.FOLLOWERS_ONLY,
+                    visibility = TweetVisibility.TO_FOLLOWER,
                     id = "12000",
                     ownerId = "6000",
                     version = "tag2",
                     permissions = setOf(
-                        TweetPermissions.MAKE_VISIBLE_GROUP,
-                        TweetPermissions.MAKE_VISIBLE_OWN
+                        TweetPermissions.READ_PUBLIC,
+                        TweetPermissions.UPDATE_MODERATE
                     )
                 )
             )
@@ -109,26 +109,26 @@ class SerializationTest {
                     text = "text1",
                     containsMedia = false,
                     reply = false,
-                    visibility = TweetVisibility.PUBLIC,
+                    visibility = TweetVisibility.TO_USER,
                     id = "12345",
                     ownerId = "6789",
                     version = "tag1",
                     permissions = setOf(
-                        TweetPermissions.UPDATE,
-                        TweetPermissions.READ
+                        TweetPermissions.UPDATE_OWN,
+                        TweetPermissions.READ_OWN
                     )
                 ),
                 TweetSingleResponse(
                     text = "text2",
                     containsMedia = true,
                     reply = false,
-                    visibility = TweetVisibility.FOLLOWERS_ONLY,
+                    visibility = TweetVisibility.TO_FOLLOWER,
                     id = "12000",
                     ownerId = "6000",
                     version = "tag2",
                     permissions = setOf(
-                        TweetPermissions.MAKE_VISIBLE_GROUP,
-                        TweetPermissions.MAKE_VISIBLE_OWN
+                        TweetPermissions.READ_PUBLIC,
+                        TweetPermissions.UPDATE_MODERATE
                     )
                 )
             )
@@ -188,7 +188,7 @@ class SerializationTest {
                 text = "text",
                 containsMedia = false,
                 reply = false,
-                visibility = TweetVisibility.PUBLIC
+                visibility = TweetVisibility.TO_USER
             )
         )
         val resultModel = mapper.readValue(reqExpected, TweetCreateRequest::class.java)
@@ -208,7 +208,7 @@ class SerializationTest {
                 text = "text",
                 containsMedia = false,
                 reply = false,
-                visibility = TweetVisibility.PUBLIC
+                visibility = TweetVisibility.TO_USER
             )
         )
         val resultString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(req)
@@ -223,7 +223,7 @@ class SerializationTest {
             text = "text",
             containsMedia = false,
             reply = false,
-            visibility = TweetVisibility.PUBLIC
+            visibility = TweetVisibility.TO_USER
         )
 
         // when
@@ -241,7 +241,7 @@ class SerializationTest {
             text = "text",
             containsMedia = false,
             reply = false,
-            visibility = TweetVisibility.PUBLIC
+            visibility = TweetVisibility.TO_USER
         )
 
         // when

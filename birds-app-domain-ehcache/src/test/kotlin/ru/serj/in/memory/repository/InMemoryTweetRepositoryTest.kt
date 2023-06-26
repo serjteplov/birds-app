@@ -1,7 +1,6 @@
 package ru.serj.`in`.memory.repository
 
-import BirdsTweetPermission.READ
-import BirdsTweetPermission.UPDATE
+import BirdsTweetPermission.*
 import io.mockk.every
 import io.mockk.mockkStatic
 import io.mockk.unmockkStatic
@@ -45,13 +44,21 @@ internal class InMemoryTweetRepositoryTest {
     fun deleteBirdsTweet() {
         // given
         repository.createBirdsTweet(TEST_REQUEST1)
-        val fetched1 = repository.searchBirdsTweet(DbRequest(search = "text"))
+        val fetched1 = repository.searchBirdsTweet(
+            DbRequest(
+                search = "text", visibilities = setOf(BirdsTweetVisibility.TO_USER)
+            )
+        )
 
         // when
         val response = repository.deleteBirdsTweet(DbRequest(id = BirdsTweetId(TEST_UUID)))
 
         // then
-        val fetched2 = repository.searchBirdsTweet(DbRequest(search = "text"))
+        val fetched2 = repository.searchBirdsTweet(
+            DbRequest(
+                search = "text", visibilities = setOf(BirdsTweetVisibility.TO_USER)
+            )
+        )
         assertEquals(0, response.errors.size)
         assertEquals(1, fetched1.tweets.size)
         assertEquals(0, fetched2.tweets.size)
@@ -66,7 +73,8 @@ internal class InMemoryTweetRepositoryTest {
         val response = repository.filterBirdsTweet(
             DbRequest(
                 from = Instant.fromEpochSeconds(1686901947),
-                to = Instant.fromEpochSeconds(1686901967)
+                to = Instant.fromEpochSeconds(1686901967),
+                visibilities = setOf(BirdsTweetVisibility.TO_USER)
             )
         )
 
@@ -84,7 +92,8 @@ internal class InMemoryTweetRepositoryTest {
         // when
         val response = repository.searchBirdsTweet(
             DbRequest(
-                search = "text2"
+                search = "text2",
+                visibilities = setOf(BirdsTweetVisibility.TO_USER)
             )
         )
 
@@ -102,8 +111,8 @@ internal class InMemoryTweetRepositoryTest {
                 containsMedia = false,
                 type = BirdsTweetType.ORIGINAL,
                 ownerId = BirdsUserId("owner-id"),
-                visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
-                permissions = mutableListOf(READ, UPDATE),
+                visibility = BirdsTweetVisibility.TO_USER,
+                permissions = mutableListOf(READ_USERS, UPDATE_USERS),
                 version = "1",
                 createdAt = Instant.fromEpochSeconds(1686101957)
             )
@@ -114,8 +123,8 @@ internal class InMemoryTweetRepositoryTest {
                 containsMedia = false,
                 type = BirdsTweetType.ORIGINAL,
                 ownerId = BirdsUserId("owner-id"),
-                visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
-                permissions = mutableListOf(READ, UPDATE),
+                visibility = BirdsTweetVisibility.TO_USER,
+                permissions = mutableListOf(READ_USERS, UPDATE_USERS),
                 version = "1",
                 createdAt = Instant.fromEpochSeconds(1686901957)
             )

@@ -1,13 +1,11 @@
 package ru.serj.postgres.repository
 
 import BirdsTweetPermission
-import BirdsTweetPermission.READ
-import BirdsTweetPermission.UPDATE
 import BirdsTweetType
 import BirdsTweetType.ORIGINAL
 import BirdsTweetType.REPLY
 import BirdsTweetVisibility
-import BirdsTweetVisibility.VISIBLE_TO_PUBLIC
+import BirdsTweetVisibility.TO_FOLLOWER
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toKotlinInstant
 import models.BirdsTweet
@@ -50,8 +48,7 @@ internal class BirdsPostgresRepositoryTest {
             containsMedia = false,
             type = ORIGINAL,
             ownerId = BirdsUserId("owner-id"),
-            visibility = VISIBLE_TO_PUBLIC,
-            permissions = mutableListOf(READ, UPDATE),
+            visibility = BirdsTweetVisibility.TO_USER,
             version = "1",
             createdAt = Instant.fromEpochSeconds(1234560)
         )
@@ -70,10 +67,9 @@ internal class BirdsPostgresRepositoryTest {
                     id = BirdsTweetId(it.getString("id")),
                     text = it.getString("text"),
                     containsMedia = it.getBoolean("contains_media"),
-                    type = if (it.getBoolean("reply")) BirdsTweetType.REPLY else ORIGINAL,
+                    type = if (it.getBoolean("reply")) REPLY else ORIGINAL,
                     ownerId = BirdsUserId(it.getString("owner_id")),
                     visibility = BirdsTweetVisibility.valueOf(it.getString("visibility")),
-                    permissions = mutableListOf(BirdsTweetPermission.valueOf(it.getString("permission"))),
                     version = it.getString("version"),
                     createdAt = it.getTimestamp("created_at").toInstant().toKotlinInstant()
                 )
@@ -84,8 +80,7 @@ internal class BirdsPostgresRepositoryTest {
         assertEquals(false, birdsTweet?.containsMedia)
         assertEquals(ORIGINAL, birdsTweet?.type)
         assertEquals(BirdsUserId("owner-id"), birdsTweet?.ownerId)
-        assertEquals(VISIBLE_TO_PUBLIC, birdsTweet?.visibility)
-        assertEquals(mutableListOf(READ), birdsTweet?.permissions)
+        assertEquals(BirdsTweetVisibility.TO_USER, birdsTweet?.visibility)
         assertEquals("1", birdsTweet?.version)
         assertEquals(Instant.fromEpochSeconds(1234560), birdsTweet?.createdAt)
     }
@@ -98,8 +93,8 @@ internal class BirdsPostgresRepositoryTest {
             containsMedia = false,
             type = REPLY,
             ownerId = BirdsUserId("owner-id-alex"),
-            visibility = VISIBLE_TO_PUBLIC,
-            permissions = mutableListOf(UPDATE),
+            visibility = BirdsTweetVisibility.TO_USER,
+            permissions = mutableListOf(BirdsTweetPermission.UPDATE_USERS),
             version = "1",
             createdAt = Instant.fromEpochSeconds(123456)
         )
@@ -113,7 +108,8 @@ internal class BirdsPostgresRepositoryTest {
 
         // then
         val fetchSize = transaction {
-            TransactionManager.current().exec("SELECT * FROM tweets2 WHERE id='${response.id.asString()}'") { it.fetchSize }
+            TransactionManager.current()
+                .exec("SELECT * FROM tweets2 WHERE id='${response.id.asString()}'") { it.fetchSize }
         }
 
         assertEquals(0, fetchSize)
@@ -124,20 +120,23 @@ internal class BirdsPostgresRepositoryTest {
         // given
         val tweet1 = BirdsTweet(
             text = "green",
-            createdAt = Instant.fromEpochSeconds(123456780)
+            createdAt = Instant.fromEpochSeconds(123456780),
+            visibility = TO_FOLLOWER
         )
         val tweet2 = BirdsTweet(
             text = "red",
-            createdAt = Instant.fromEpochSeconds(123456785)
+            createdAt = Instant.fromEpochSeconds(123456785),
+            visibility = TO_FOLLOWER
         )
         val tweet3 = BirdsTweet(
             text = "blue",
-            createdAt = Instant.fromEpochSeconds(123456789)
+            createdAt = Instant.fromEpochSeconds(123456789),
+            visibility = TO_FOLLOWER
         )
         transaction {
-            repository.createBirdsTweet(DbRequest(tweet = tweet1))
-            repository.createBirdsTweet(DbRequest(tweet = tweet2))
-            repository.createBirdsTweet(DbRequest(tweet = tweet3))
+            repository.createBirdsTweet(DbRequest(tweet = tweet1, visibilities = setOf(TO_FOLLOWER)))
+            repository.createBirdsTweet(DbRequest(tweet = tweet2, visibilities = setOf(TO_FOLLOWER)))
+            repository.createBirdsTweet(DbRequest(tweet = tweet3, visibilities = setOf(TO_FOLLOWER)))
         }
 
         // when
@@ -145,7 +144,8 @@ internal class BirdsPostgresRepositoryTest {
             repository.filterBirdsTweet(
                 DbRequest(
                     from = Instant.fromEpochSeconds(123456770),
-                    to = Instant.fromEpochSeconds(123456786)
+                    to = Instant.fromEpochSeconds(123456786),
+                    visibilities = setOf(TO_FOLLOWER)
                 )
             )
         }
@@ -161,25 +161,28 @@ internal class BirdsPostgresRepositoryTest {
         // given
         val tweet1 = BirdsTweet(
             text = "oak",
-            createdAt = Instant.fromEpochSeconds(1234567801)
+            createdAt = Instant.fromEpochSeconds(1234567801),
+            visibility = TO_FOLLOWER
         )
         val tweet2 = BirdsTweet(
             text = "redwood",
-            createdAt = Instant.fromEpochSeconds(1234567851)
+            createdAt = Instant.fromEpochSeconds(1234567851),
+            visibility = TO_FOLLOWER
         )
         val tweet3 = BirdsTweet(
             text = "elm",
-            createdAt = Instant.fromEpochSeconds(1234567891)
+            createdAt = Instant.fromEpochSeconds(1234567891),
+            visibility = TO_FOLLOWER
         )
         transaction {
-            repository.createBirdsTweet(DbRequest(tweet = tweet1))
-            repository.createBirdsTweet(DbRequest(tweet = tweet2))
-            repository.createBirdsTweet(DbRequest(tweet = tweet3))
+            repository.createBirdsTweet(DbRequest(tweet = tweet1, visibilities = setOf(TO_FOLLOWER)))
+            repository.createBirdsTweet(DbRequest(tweet = tweet2, visibilities = setOf(TO_FOLLOWER)))
+            repository.createBirdsTweet(DbRequest(tweet = tweet3, visibilities = setOf(TO_FOLLOWER)))
         }
 
         // when
         val res = transaction {
-            repository.searchBirdsTweet(DbRequest(search = "elm"))
+            repository.searchBirdsTweet(DbRequest(search = "elm", visibilities = setOf(TO_FOLLOWER)))
         }
 
         // then

@@ -16,7 +16,6 @@ fun BirdsTweetEntity.toBirdsTweet() =
         type = if (reply) BirdsTweetType.REPLY else BirdsTweetType.ORIGINAL,
         ownerId = BirdsUserId(ownerId),
         visibility = visibility,
-        permissions = mutableListOf(permission),
         version = version,
         createdAt = createdAt.toKotlinLocalDateTime().toInstant(TimeZone.UTC)
     )

@@ -1,7 +1,12 @@
 version: '3'
+
+volumes:
+  opensearch-data:
+  postgres_data2:
+
 services:
   app:
-    image: birds-app-ktor:0.0.7
+    image: birds-app-ktor:0.0.8
     ports:
       - "8080:8080"
     depends_on:
@@ -12,7 +17,7 @@ services:
       - SERVICE_NAME=birds-app-ktor
       - LOG_COMMON_LEVEL=info
       - DB_HOST=postgres
-      - DB_PORT=5432
+      - DB_PORT=9432
       - DB_USER=postgres
       - DB_PASS=postgres
 
@@ -20,7 +25,7 @@ services:
     image: postgres
     container_name: postgres
     volumes:
-      - postgres_data:/home/serg/Videos/data
+      - postgres_data2:/home/serg/Videos/data
     ports:
       - "9432:5432"
     expose:
@@ -82,7 +87,3 @@ services:
       OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
     depends_on:
       - opensearch
-
-volumes:
-  opensearch-data:
-  postgres_data:

@@ -59,16 +59,22 @@ private fun BirdsTweet.toTransport() = TweetSingleResponse(
 )
 
 fun BirdsTweetPermission.toTransport() = when (this) {
-    BirdsTweetPermission.READ -> TweetPermissions.READ
-    BirdsTweetPermission.UPDATE -> TweetPermissions.UPDATE
-    BirdsTweetPermission.DELETE -> TweetPermissions.DELETE
+    BirdsTweetPermission.CREATE_USERS -> TweetPermissions.CREATE_OWN
+    BirdsTweetPermission.READ_USERS -> TweetPermissions.READ_OWN
+    BirdsTweetPermission.UPDATE_USERS -> TweetPermissions.UPDATE_OWN
+    BirdsTweetPermission.DELETE_USERS -> TweetPermissions.DELETE_OWN
+    BirdsTweetPermission.UPDATE_MODERATORS -> TweetPermissions.UPDATE_MODERATE
+    BirdsTweetPermission.DELETE_MODERATORS -> TweetPermissions.DELETE_MODERATE
+    BirdsTweetPermission.READ_MODERATORS -> TweetPermissions.READ_MODERATE
+    BirdsTweetPermission.READ_GUESTS -> TweetPermissions.READ_PUBLIC
 }
 
 fun BirdsTweetVisibility.toTransport() = when (this) {
-    BirdsTweetVisibility.NONE -> TweetVisibility.PUBLIC
-    BirdsTweetVisibility.VISIBLE_TO_OWNER -> TweetVisibility.FOLLOWERS_ONLY
-    BirdsTweetVisibility.VISIBLE_TO_GROUP -> TweetVisibility.FOLLOWERS_ONLY
-    BirdsTweetVisibility.VISIBLE_TO_PUBLIC -> TweetVisibility.PUBLIC
+    BirdsTweetVisibility.NONE -> null
+    BirdsTweetVisibility.TO_OWNER -> TweetVisibility.TO_OWNER
+    BirdsTweetVisibility.TO_FOLLOWER -> TweetVisibility.TO_FOLLOWER
+    BirdsTweetVisibility.TO_USER -> TweetVisibility.TO_USER
+    BirdsTweetVisibility.TO_GUEST -> TweetVisibility.TO_GUEST
 }
 
 fun BirdsTweetType.toTransport() = when (this) {
