@@ -22,9 +22,9 @@ internal class MappersV1ToTransportTest {
                 text = "text",
                 type = BirdsTweetType.ORIGINAL,
                 containsMedia = false,
-                visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
+                visibility = BirdsTweetVisibility.TO_GUEST,
                 ownerId = BirdsUserId("birdsUserId"),
-                permissions = mutableListOf(READ, UPDATE),
+                permissions = mutableListOf(DELETE_MODERATORS, READ_MODERATORS),
                 version = "version1"
             )
         )
@@ -36,11 +36,11 @@ internal class MappersV1ToTransportTest {
         assertEquals(response.id, "birdsTweetId")
         assertEquals(response.ownerId, "birdsUserId")
         assertEquals(response.containsMedia, false)
-        assertEquals(response.permissions, setOf(TweetPermissions.READ, TweetPermissions.UPDATE))
+        assertEquals(response.permissions, setOf(TweetPermissions.DELETE_MODERATE, TweetPermissions.READ_MODERATE))
         assertEquals(response.reply, false)
         assertEquals(response.text, "text")
         assertEquals(response.version, "version1")
-        assertEquals(response.visibility, TweetVisibility.PUBLIC)
+        assertEquals(response.visibility, TweetVisibility.TO_GUEST)
         assertEquals(response.requestId, "requestId")
         assertEquals(response.result, ResponseResult.SUCCESS)
     }
@@ -60,9 +60,9 @@ internal class MappersV1ToTransportTest {
                 text = "text",
                 type = BirdsTweetType.ORIGINAL,
                 containsMedia = false,
-                visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
+                visibility = BirdsTweetVisibility.TO_USER,
                 ownerId = BirdsUserId("birdsUserId"),
-                permissions = mutableListOf(READ, UPDATE),
+                permissions = mutableListOf(DELETE_USERS, CREATE_USERS, READ_MODERATORS),
             )
         )
 
@@ -92,9 +92,9 @@ internal class MappersV1ToTransportTest {
                     text = "text1",
                     type = BirdsTweetType.ORIGINAL,
                     containsMedia = false,
-                    visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
+                    visibility = BirdsTweetVisibility.TO_OWNER,
                     ownerId = BirdsUserId("birdsUserId1"),
-                    permissions = mutableListOf(READ, UPDATE),
+                    permissions = mutableListOf(UPDATE_USERS, UPDATE_MODERATORS),
                     version = "version1"
                 ),
                 BirdsTweet(
@@ -102,9 +102,9 @@ internal class MappersV1ToTransportTest {
                     text = "text2",
                     type = BirdsTweetType.REPLY,
                     containsMedia = true,
-                    visibility = BirdsTweetVisibility.VISIBLE_TO_OWNER,
+                    visibility = BirdsTweetVisibility.TO_GUEST,
                     ownerId = BirdsUserId("birdsUserId2"),
-                    permissions = mutableListOf(DELETE),
+                    permissions = mutableListOf(DELETE_MODERATORS),
                     version = "version2"
                 )
             )
@@ -112,22 +112,22 @@ internal class MappersV1ToTransportTest {
         val tsr1 = TweetSingleResponse(
             text = "text1",
             containsMedia = false,
-            visibility = TweetVisibility.PUBLIC,
+            visibility = TweetVisibility.TO_OWNER,
             reply = false,
             id = "birdsTweetId1",
             ownerId = "birdsUserId1",
             version = "version1",
-            permissions = setOf(TweetPermissions.READ, TweetPermissions.UPDATE)
+            permissions = setOf(TweetPermissions.UPDATE_MODERATE, TweetPermissions.UPDATE_OWN)
         )
         val tsr2 = TweetSingleResponse(
             text = "text2",
             containsMedia = true,
-            visibility = TweetVisibility.FOLLOWERS_ONLY,
+            visibility = TweetVisibility.TO_GUEST,
             reply = true,
             id = "birdsTweetId2",
             ownerId = "birdsUserId2",
             version = "version2",
-            permissions = setOf(TweetPermissions.DELETE)
+            permissions = setOf(TweetPermissions.DELETE_MODERATE)
         )
 
         // when
@@ -155,9 +155,9 @@ internal class MappersV1ToTransportTest {
                     text = "text1",
                     type = BirdsTweetType.ORIGINAL,
                     containsMedia = false,
-                    visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
+                    visibility = BirdsTweetVisibility.TO_FOLLOWER,
                     ownerId = BirdsUserId("birdsUserId1"),
-                    permissions = mutableListOf(READ, UPDATE),
+                    permissions = mutableListOf(CREATE_USERS, READ_GUESTS),
                     version = "version1"
                 ),
                 BirdsTweet(
@@ -165,9 +165,9 @@ internal class MappersV1ToTransportTest {
                     text = "text2",
                     type = BirdsTweetType.REPLY,
                     containsMedia = true,
-                    visibility = BirdsTweetVisibility.VISIBLE_TO_OWNER,
+                    visibility = BirdsTweetVisibility.TO_FOLLOWER,
                     ownerId = BirdsUserId("birdsUserId2"),
-                    permissions = mutableListOf(DELETE),
+                    permissions = mutableListOf(DELETE_USERS),
                     version = "version2"
                 )
             )
@@ -175,22 +175,22 @@ internal class MappersV1ToTransportTest {
         val tsr1 = TweetSingleResponse(
             text = "text1",
             containsMedia = false,
-            visibility = TweetVisibility.PUBLIC,
+            visibility = TweetVisibility.TO_FOLLOWER,
             reply = false,
             id = "birdsTweetId1",
             ownerId = "birdsUserId1",
             version = "version1",
-            permissions = setOf(TweetPermissions.READ, TweetPermissions.UPDATE)
+            permissions = setOf(TweetPermissions.CREATE_OWN, TweetPermissions.READ_PUBLIC)
         )
         val tsr2 = TweetSingleResponse(
             text = "text2",
             containsMedia = true,
-            visibility = TweetVisibility.FOLLOWERS_ONLY,
+            visibility = TweetVisibility.TO_FOLLOWER,
             reply = true,
             id = "birdsTweetId2",
             ownerId = "birdsUserId2",
             version = "version2",
-            permissions = setOf(TweetPermissions.DELETE)
+            permissions = setOf(TweetPermissions.DELETE_OWN)
         )
 
         // when

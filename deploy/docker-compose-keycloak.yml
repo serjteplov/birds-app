@@ -1,0 +1,41 @@
+version: '3'
+
+volumes:
+  postgres_data:
+networks:
+  local-keycloak:
+
+services:
+  postgreskey:
+    image: postgres:13.2
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/home/serg/Videos/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    networks:
+      - local-keycloak
+
+  keycloak:
+    depends_on:
+      - postgreskey
+    container_name: local_keycloak
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: postgreskey
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: keycloak
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: "/tmp/realm-export.json"
+    volumes:
+      - ./keycloak:/tmp
+    image: jboss/keycloak
+    ports:
+      - "8081:8080"
+    restart: unless-stopped
+    networks:
+      - local-keycloak

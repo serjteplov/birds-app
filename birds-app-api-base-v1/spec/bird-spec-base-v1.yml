@@ -35,12 +35,14 @@ components:
       type: string
       description: Доступы для клиента для операций над tweet
       enum:
-        - read
-        - update
-        - delete
-        - makeVisiblePublic
-        - makeVisibleOwn
-        - makeVisibleGroup
+        - readPublic
+        - createOwn
+        - readOwn
+        - updateOwn
+        - deleteOwn
+        - readModerate
+        - updateModerate
+        - deleteModerate
     Error:
       type: object
       properties:
@@ -56,8 +58,10 @@ components:
       type: string
       description: Кто может просматривать твит
       enum:
-        - public
-        - followersOnly
+        - toOwner
+        - toFollower
+        - toUser
+        - toGuest
     TweetRequestDebugMode:
       type: string
       enum:

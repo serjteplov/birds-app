@@ -24,14 +24,14 @@ internal class MappersV1FromTransportTest {
                 text = "text",
                 containsMedia = false,
                 reply = false,
-                visibility = TweetVisibility.PUBLIC
+                visibility = TweetVisibility.TO_GUEST
             )
         )
         val birdsTweet = BirdsTweet(
             text = "text",
             type = BirdsTweetType.ORIGINAL,
             containsMedia = false,
-            visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC
+            visibility = BirdsTweetVisibility.TO_GUEST
         )
 
         // when

@@ -1,0 +1,294 @@
+{
+	"info": {
+		"_postman_id": "db811562-3e13-47d0-85d3-1cbb263f99cc",
+		"name": "otus-kotlin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "birds-create-success-stub",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requestType\": \"create\",\n    \"requestId\": \"unique-request-id2\",\n    \"debug\": {\n        \"mode\": \"test\",\n        \"stub\": \"success\"\n    },\n    \"tweet\": {\n        \"text\": \"aaa2\",\n        \"containsMedia\": false,\n        \"reply\": false,\n        \"visibility\": \"public\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bird/v1/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bird",
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "birds-create-fail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requestType\": \"create\",\n    \"requestId\": \"unique-request-id\",\n    \"debug\": {\n        \"mode\": \"test\",\n        \"stub\": \"success\"\n    },\n    \"tweet\": {\n        \"text\": \"aaa\",\n        \"containsMedia\": false,\n        \"reply\": false,\n        \"visibility\": \"public\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bird/v1/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bird",
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "birds-create",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requestType\": \"create\",\n    \"requestId\": \"111-aaa-222-bbb\",\n    \"debug\": {\n        \"mode\": \"test\"\n    },\n    \"tweet\": {\n        \"text\": \"венесуэлла2\",\n        \"containsMedia\": false,\n        \"reply\": false,\n        \"visibility\": \"followersOnly\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bird/v1/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bird",
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "birds-filter",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requestType\": \"filter\",\n    \"requestId\": \"unique-request-id\",\n    \"debug\": {\n        \"mode\": \"test\"\n    },\n    \"interval\": {\n        \"from\": \"2023-05-30T04:20:53\",\n        \"to\": \"2023-06-30T04:21:54\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bird/v1/filter",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bird",
+						"v1",
+						"filter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "birds-delete",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requestType\": \"delete\",\n    \"requestId\": \"unique-request-id\",\n    \"debug\": {\n        \"mode\": \"test\"\n    },\n    \"tweetDelete\": {\n        \"id\": \"b8cc6621-a04d-48a5-b3b6-c2d8fde78be5\",\n        \"version\": \"1\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bird/v1/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bird",
+						"v1",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "birds-search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requestType\": \"search\",\n    \"requestId\": \"unique-request-id\",\n    \"debug\": {\n        \"mode\": \"test\"\n    },\n    \"tweetFilter\": {\n        \"searchString\": \"aaaa\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/bird/v1/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"bird",
+						"v1",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get access_token by password (keycloak)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "serg",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "otus-marketplace-service",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8081/auth/realms/otus-marketplace/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"auth",
+						"realms",
+						"otus-marketplace",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get access_token by refresh_token (keycloak)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "refresh_token",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "otus-marketplace-service",
+							"type": "text"
+						},
+						{
+							"key": "refresh_token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI3M2FjZTY1Zi1lMmM5LTQzMWQtYmViNy0zMDkxM2ZhNWJlYTQifQ.eyJleHAiOjE2ODc1MDE0NjcsImlhdCI6MTY4NzQ5OTY2NywianRpIjoiNjJjOWE2N2EtYmFlNy00ZDhlLWE0NzgtMTQ2YjIyOWFkMGRhIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgxL2F1dGgvcmVhbG1zL290dXMtbWFya2V0cGxhY2UiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODEvYXV0aC9yZWFsbXMvb3R1cy1tYXJrZXRwbGFjZSIsInN1YiI6IjgwYjc5MDEwLTA2YjMtNDNhOC1iNjY4LWUzNTE0OGY3M2YxYSIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJvdHVzLW1hcmtldHBsYWNlLXNlcnZpY2UiLCJzZXNzaW9uX3N0YXRlIjoiZWI2NTNmYjgtZjI1OS00MmI3LTkwMzQtZGFjZTU0ODM5ZTU3Iiwic2NvcGUiOiIiLCJzaWQiOiJlYjY1M2ZiOC1mMjU5LTQyYjctOTAzNC1kYWNlNTQ4MzllNTcifQ.CpNAQwqIT8OVregwA_Oc7vfSMLxn9dQwlMuCn5Nefwc",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8081/auth/realms/otus-marketplace/protocol/openid-connect/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"auth",
+						"realms",
+						"otus-marketplace",
+						"protocol",
+						"openid-connect",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

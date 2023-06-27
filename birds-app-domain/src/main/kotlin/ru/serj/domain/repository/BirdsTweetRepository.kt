@@ -12,4 +12,6 @@ interface BirdsTweetRepository {
     fun filterBirdsTweet(request: DbRequest): DbResponse
 
     fun searchBirdsTweet(request: DbRequest): DbResponse
+
+    fun findById(request: DbRequest): DbResponse
 }

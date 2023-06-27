@@ -9,6 +9,6 @@ val tweetResponseStub = BirdsTweet(
     text = "Cool birds tweet",
     type = BirdsTweetType.ORIGINAL,
     ownerId = BirdsUserId("userId"),
-    visibility = BirdsTweetVisibility.VISIBLE_TO_PUBLIC,
-    permissions = mutableListOf(BirdsTweetPermission.UPDATE, BirdsTweetPermission.READ)
+    visibility = BirdsTweetVisibility.TO_GUEST,
+    permissions = mutableListOf(BirdsTweetPermission.UPDATE_USERS, BirdsTweetPermission.READ_USERS)
 )

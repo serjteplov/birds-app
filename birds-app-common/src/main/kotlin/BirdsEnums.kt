@@ -7,12 +7,26 @@ enum class BirdsTweetType {
 
 enum class BirdsTweetVisibility {
     NONE,
-    VISIBLE_TO_OWNER,
-    VISIBLE_TO_GROUP,
-    VISIBLE_TO_PUBLIC
+    TO_OWNER,
+    TO_FOLLOWER,
+    TO_USER,
+    TO_GUEST
 }
 enum class BirdsTweetPermission {
-    READ,
-    UPDATE,
-    DELETE
+    READ_GUESTS,
+
+    CREATE_USERS,
+    READ_USERS,
+    UPDATE_USERS,
+    DELETE_USERS,
+
+    READ_MODERATORS,
+    UPDATE_MODERATORS,
+    DELETE_MODERATORS
+}
+
+enum class BirdsPrincipalRelation {
+    OWNER,
+    FOLLOWER,
+    NONE,
 }

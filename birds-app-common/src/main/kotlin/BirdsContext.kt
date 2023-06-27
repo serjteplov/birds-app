@@ -9,6 +9,11 @@ data class BirdsContext(
     var workMode: BirdsWorkMode = BirdsWorkMode.PROD,
     var stubCase: BirdsStubs = BirdsStubs.NONE,
 
+    var principal: BirdsPrincipal = BirdsPrincipal.NONE,
+    var principalRelations: Set<BirdsPrincipalRelation> = setOf(),
+    var visibilitiesAllowed: Set<BirdsTweetVisibility> = setOf(),
+    var authorized: Boolean = false,
+
     var requestId: BirdsRequestId = BirdsRequestId.NONE,
     var timeStart: Instant = Instant.NONE,
 

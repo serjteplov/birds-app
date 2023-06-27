@@ -1,5 +1,6 @@
 package ru.serj.domain.entity
 
+import BirdsTweetVisibility
 import NONE
 import kotlinx.datetime.Instant
 import models.BirdsTweet
@@ -10,5 +11,6 @@ data class DbRequest (
     val tweet: BirdsTweet = BirdsTweet(),
     val from: Instant = Instant.NONE,
     val to: Instant = Instant.NONE,
-    val search: String = ""
+    val search: String = "",
+    val visibilities: Set<BirdsTweetVisibility> = emptySet()
 )

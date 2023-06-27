@@ -1,6 +1,5 @@
 package ru.serj.postgres.repository
 
-import BirdsTweetPermission
 import BirdsTweetType
 import kotlinx.datetime.toJavaInstant
 import models.BirdsTweetId
@@ -42,7 +41,6 @@ class BirdsPostgresRepository(
                 it[reply] = req.tweet.type == BirdsTweetType.REPLY
                 it[ownerId] = req.tweet.ownerId.asString()
                 it[visibility] = req.tweet.visibility
-                it[permission] = req.tweet.permissions.firstOrNull() ?: BirdsTweetPermission.READ
                 it[version] = req.tweet.version
                 it[createdAt] = JLocalDateTime.ofInstant(req.tweet.createdAt.toJavaInstant(), ZoneOffset.UTC)
             }
@@ -56,13 +54,12 @@ class BirdsPostgresRepository(
             DbResponse(id = req.id)
         }
 
-
     override fun filterBirdsTweet(request: DbRequest) =
         wrapped(request) {
             val op = Op.build {
                 Tweets.createdAt greaterEq Timestamp.from(it.from.toJavaInstant()) and (
-                        Tweets.createdAt lessEq Timestamp.from(it.to.toJavaInstant())
-                        )
+                        Tweets.createdAt lessEq Timestamp.from(it.to.toJavaInstant())) and (
+                        Tweets.visibility inList request.visibilities)
             }
             val tweets = BirdsTweetEntity.find { op }.map { it.toBirdsTweet() }
             DbResponse(tweets = tweets)
@@ -70,9 +67,21 @@ class BirdsPostgresRepository(
 
     override fun searchBirdsTweet(request: DbRequest) =
         wrapped(request) {
-            val condition = Op.build { Tweets.text like "%${request.search}%" }
+            val condition = Op.build {
+                Tweets.text like "%${request.search}%" and (
+                        Tweets.visibility inList request.visibilities)
+            }
             val tweets = BirdsTweetEntity.find { condition }.map { it.toBirdsTweet() }
             DbResponse(tweets = tweets)
+        }
+
+    override fun findById(request: DbRequest) =
+        wrapped(request) {
+            val op = Op.build {
+                Tweets.id eq UUID.fromString(request.id.asString())
+            }
+            val tweets = BirdsTweetEntity.find { op }.map { it.toBirdsTweet() }
+            DbResponse(tweet = tweets.singleOrNull())
         }
 
 

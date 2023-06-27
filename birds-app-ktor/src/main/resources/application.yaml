@@ -1,9 +1,15 @@
 ktor:
   application:
     modules:
-      - ru.serj.birds.ApplicationKt.module
+      - ru.serj.birds.ApplicationKt.moduleBird
   deployment:
     port: "$PORT:8080"
+jwt:
+  keycloak: $KEYCLOAK_BASE_URL
+  issuer: "/auth/realms/otus-marketplace"
+  audience: "ad-users"
+  realm: "otus-marketplace"
+  certPath: "/auth/realms/otus-marketplace/protocol/openid-connect/certs"
 logging:
   provider: "logback"
 dbms:

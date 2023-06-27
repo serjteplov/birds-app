@@ -51,10 +51,20 @@ class InMemoryTweetRepository : BirdsTweetRepository {
     }
 
     override fun filterBirdsTweet(request: DbRequest) = DbResponse(
-        tweets = cache.filter { it.value.createdAt in request.from..request.to }.map { it.value }
+        tweets = cache.filter {
+            it.value.createdAt in request.from..request.to
+                    && it.value.visibility in request.visibilities
+        }.map { it.value }
     )
 
     override fun searchBirdsTweet(request: DbRequest) = DbResponse(
-        tweets = cache.filter { it.value.text.contains(request.search) }.map { it.value }
+        tweets = cache.filter {
+            it.value.text.contains(request.search)
+                    && it.value.visibility in request.visibilities
+        }.map { it.value }
+    )
+
+    override fun findById(request: DbRequest) = DbResponse(
+        tweet = cache.get(request.id.asString())
     )
 }

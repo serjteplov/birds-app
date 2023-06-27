@@ -1,6 +1,19 @@
 # Название проекта 
 birds app
 
+## Запуск
+1. change version in Configuration.kt
+2. birds-app: gradle clean build
+3. birds-app-api-base-v1: gradle pablishToMavenLocal
+4. birds-app-ktor: gradle publishImageToLocalRegistry
+5. change version in docker-compose.yml
+6. docker compose up
+7. docker compose -f docker-compose-keycloak.yml up --force-recreate keycloak postgreskey
+
+## Логин пользователем
+http://localhost:8081/auth/realms/otus-marketplace/account/#/
+
+
 ## Предназначение
 социальная сеть обмена короткими сообщениями
 
