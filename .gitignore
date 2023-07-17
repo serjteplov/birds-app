@@ -47,3 +47,4 @@ bin/
 .DS_Store
 /buildSrc/gradle/wrapper/gradle-wrapper.jar
 /buildSrc/gradle/wrapper/gradle-wrapper.properties
+/.idea/kotlinc.xml
