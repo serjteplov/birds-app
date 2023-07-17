@@ -4,15 +4,14 @@ birds app
 ## Запуск
 1. change version (if needed) in Configuration.kt
 2. change version (if needed) in deploy/docker-compose.yml
-3. birds-app-api-base-v1: gradle publish
-4. set envs in Edit configurations: GITHUB_ACTOR=serjteplov GITHUB_TOKEN=сгенерить 
-5. birds-app: gradle clean build
-6. birds-app-api-base-v1: gradle pablishToMavenLocal
-7. birds-app-ktor: gradle publishImageToLocalRegistry
-8. docker compose up
-9. (отдельный запуск keycloak) docker compose -f docker-compose-keycloak.yml up --force-recreate keycloak postgreskey
-10. получить токен (см. коллекцию постман)
-11. сделать запрос (см. коллекцию постман)
+3. birds-app-api-base-v1: gradle publish (with envs GITHUB_ACTOR=serjteplov GITHUB_TOKEN=сгенерить)
+4. birds-app: gradle clean build (with envs GITHUB_ACTOR=serjteplov GITHUB_TOKEN=сгенерить)
+5. birds-app-api-base-v1: gradle publishToMavenLocal
+6. birds-app-ktor: gradle publishImageToLocalRegistry
+7. cd deploy/ && docker compose up
+8. (отдельный запуск keycloak) docker compose -f docker-compose-keycloak.yml up --force-recreate keycloak postgreskey
+9. получить токен keycloak (см. коллекцию постман)
+10. сделать запрос в приложение (см. коллекцию постман)
 
 ## Логин пользователем
 http://localhost:8081/auth/realms/otus-marketplace/account/#/
