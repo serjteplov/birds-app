@@ -37,4 +37,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
