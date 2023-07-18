@@ -44,7 +44,7 @@ publishing {
         val repoPass: String? = System.getenv("GITHUB_TOKEN")
         println("REPO: $repoHost USER: $repoUser")
         if (repoUser != null && repoPass != null) {
-            println("REPO: $repoHost USER: $repoUser")
+            println("Birds-app: Credentials are OK!")
             maven {
                 name = "GitHubPackages"
                 url = uri(repoHost)

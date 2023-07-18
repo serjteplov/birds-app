@@ -16,13 +16,14 @@ birds app
 ## Логин пользователем
 http://localhost:8081/auth/realms/otus-marketplace/account/#/
 
-
-## Предназначение
-социальная сеть обмена короткими сообщениями
-
 ## При каждом коммите в github
 нужно инкрементить версию приложения в Configuration.kt     
 val BIRDS_APP = "0.0.X"
+
+## Github Actions настроены и работают
+GITHUB_TOKEN генерится и добавляется в github actions автоматически
+Из скриптов github actions он доступен через ${{ secrets.GITHUB_TOKEN }}
+Однако надо не забывать прокидывать его в энвы строчкой env: GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 ## Цели модулей
 birds-app-api-base-v1 - модуль с куском OpenApi спеки, общей для всех остальных спек

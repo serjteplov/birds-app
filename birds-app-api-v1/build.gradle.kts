@@ -59,8 +59,6 @@ repositories {
 
     val repoUser: String? = System.getenv("GITHUB_ACTOR")
     val repoPass: String? = System.getenv("GITHUB_TOKEN")
-    println("**************USER: $repoUser")
-    println("**************TOKEN: $repoPass")
     maven {
         url = uri("https://maven.pkg.github.com/serjteplov/birds-app")
         credentials {
