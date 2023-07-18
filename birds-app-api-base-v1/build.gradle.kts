@@ -42,6 +42,7 @@ publishing {
         val repoHost = "https://maven.pkg.github.com/serjteplov/birds-app"
         val repoUser: String? = System.getenv("GITHUB_ACTOR")
         val repoPass: String? = System.getenv("GITHUB_TOKEN")
+        println("REPO: $repoHost USER: $repoUser")
         if (repoUser != null && repoPass != null) {
             println("REPO: $repoHost USER: $repoUser")
             maven {
