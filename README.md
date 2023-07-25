@@ -18,6 +18,9 @@
    --data-urlencode 'password=1' \
    --data-urlencode 'client_id=otus-marketplace-service'
 9. Сделать запрос в приложение (см. коллекцию постман)
+10. Открыть opensearch http://localhost:5601 admin/admin
+11. Добавить index pattern: app-logs-*
+12. Открыть Discover
 
 ## Локальный запуск
 1. Добавить в переменные запуска KEYCLOAK_BASE_URL=http://localhost:8081
