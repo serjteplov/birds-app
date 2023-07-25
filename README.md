@@ -1,24 +1,37 @@
-# Название проекта 
-birds app
+## Для начала
+Должен проходить gradle clean build
 
-## Запуск
-1. change version (if needed) in Configuration.kt
-2. change version (if needed) in deploy/docker-compose.yml
-3. birds-app-api-base-v1: gradle publish (with envs GITHUB_ACTOR=serjteplov GITHUB_TOKEN=сгенерить)
-4. birds-app: gradle clean build (with envs GITHUB_ACTOR=serjteplov GITHUB_TOKEN=сгенерить)
-5. birds-app-api-base-v1: gradle publishToMavenLocal
-6. birds-app-ktor: gradle publishImageToLocalRegistry
+## Запуск через докер
+1. (if needed) change version in Configuration.kt
+2. (if needed) change version in deploy/docker-compose.yml
+3. (if needed) birds-app-api-base-v1: gradle publish (with envs GITHUB_ACTOR=serjteplov GITHUB_TOKEN=сгенерить)
+4. (if needed) birds-app: gradle clean build (with envs GITHUB_ACTOR=serjteplov GITHUB_TOKEN=сгенерить)
+5. (if needed) birds-app-api-base-v1: gradle publishToMavenLocal
+6. (if needed) birds-app-ktor: gradle publishImageToLocalRegistry
 7. cd deploy/ && docker compose up
-8. (отдельный запуск keycloak) docker compose -f docker-compose-keycloak.yml up --force-recreate keycloak postgreskey
-9. получить токен keycloak (см. коллекцию постман)
-10. сделать запрос в приложение (см. коллекцию постман)
+8. Получить токен в keycloak
+9. Сделать запрос в приложение (см. коллекцию постман)
 
-## Логин пользователем
-http://localhost:8081/auth/realms/otus-marketplace/account/#/
+## Локальный запуск
+1. Добавить в переменные запуска KEYCLOAK_BASE_URL=http://localhost:8081
+2. Создать БД tweets
+3. Запустить keycloak: cd deploy/ && docker compose up
+4. Запустить приложение birds-app-ktor
 
-## При каждом коммите в github
-нужно инкрементить версию приложения в Configuration.kt     
-val BIRDS_APP = "0.0.X"
+## Получить токен keycloak
+1. При первом запуске приложения нужно создать пользователя serg в интерфейсе Keycloak
+2. http://localhost:8081/
+3. Administrative console -> admin\admin
+4. Manage -> Groups -> New -> USERS
+5. Manage -> Users -> Add User -> serg -> set password -> 1
+6. Users -> serg -> Groups -> join USERS -> leave USER
+7. Возможно -> Users -> serg -> Role Mappings -> Client Roles -> otus-marketplace-service
+8. http://localhost:8081/auth/realms/otus-marketplace/account/#/
+9. Login with serg\1
+10. Сделать запрос в postman ответом на который будет access_token (см. коллекцию постман)
+
+## Отдельный запуск keycloak (в рамках проекта не требуется)
+docker compose -f docker-compose-keycloak.yml up --force-recreate keycloak postgreskey
 
 ## Github Actions настроены и работают
 GITHUB_TOKEN генерится и добавляется в github actions автоматически
