@@ -1,6 +1,8 @@
-## Для начала
+## Самый первый запуск
 Авторизовать github в Intellij
-Должен локально проходить gradle clean build
+Сделать birds-app-api-base-v1: gradle publishToMavenLocal
+Сделать birds-app-ktor: gradle publishImageToLocalRegistry
+Сделать birds-app: gradle clean build
 
 ## Запуск через докер
 1. (if needed) change version in Configuration.kt
@@ -10,18 +12,20 @@
 5. (if needed) birds-app-api-base-v1: gradle publishToMavenLocal
 6. (if needed) birds-app-ktor: gradle publishImageToLocalRegistry
 7. cd deploy/ && docker compose up
-8. Получить токен в keycloak изнутри сети docker compose (т.к. именно в этом случае в токене будет проставлен
+8. Создать пользователя serg в keycloak (пункт ниже Получить токен keycloak)
+9. Получить токен в keycloak изнутри сети docker compose (т.к. именно в этом случае в токене будет проставлен
 корректный issuer, который на самом деле есть адрес keykloak)
-   curl --location --request POST 'http://keycloak:8080/auth/realms/otus-marketplace/protocol/openid-connect/token' \
-   --header 'Content-Type: application/x-www-form-urlencoded' \
-   --data-urlencode 'grant_type=password' \
-   --data-urlencode 'username=serg' \
-   --data-urlencode 'password=1' \
-   --data-urlencode 'client_id=otus-marketplace-service'
-9. Сделать запрос в приложение (см. коллекцию постман)
-10. Открыть opensearch http://localhost:5601 admin/admin
-11. Добавить index pattern: app-logs-*
-12. Открыть Discover
+10. docker exec -it 226638e2090e /bin/bash
+    curl --location --request POST 'http://keycloak:8080/auth/realms/otus-marketplace/protocol/openid-connect/token' \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --data-urlencode 'grant_type=password' \
+    --data-urlencode 'username=serg' \
+    --data-urlencode 'password=1' \
+    --data-urlencode 'client_id=otus-marketplace-service'
+11. Сделать запрос в приложение (см. коллекцию постман)
+12. Открыть opensearch http://localhost:5601 admin/admin
+13. Три полоски -> Discover -> Добавить index pattern: app-logs-*
+14. Открыть Discover
 
 ## Локальный запуск
 1. Добавить в переменные запуска KEYCLOAK_BASE_URL=http://localhost:8081
