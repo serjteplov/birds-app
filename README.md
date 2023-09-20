@@ -1,10 +1,20 @@
-## Самый первый запуск
+## Самый первый запуск birds-app
 Авторизовать github в Intellij
 Сделать birds-app-api-base-v1: gradle publishToMavenLocal
 Сделать birds-app-ktor: gradle publishImageToLocalRegistry
 Сделать birds-app: gradle clean build
 
-## Запуск через докер
+## Локальный запуск birds-app
+1. Добавить в переменные запуска KEYCLOAK_BASE_URL=http://localhost:8081
+2. Запустить keycloak: docker compose -f docker-compose-keycloak.yml up ИЛИ
+   docker compose -f docker-compose-keycloak.yml up --force-recreate keycloak postgreskey
+3. Создать БД tweets
+4. Запустить приложение birds-app-ktor кнопкой в Intellij
+5. Создать пользователя serg в keycloak (пункт ниже Получить токен keycloak)
+6. Получить токен в keycloak через постман
+7. Сделать запрос в приложение из постман
+
+## Запуск birds-app через докер
 1. (if needed) change version in Configuration.kt
 2. (if needed) change version in deploy/docker-compose.yml
 3. (if needed) birds-app-api-base-v1: gradle publish (with envs GITHUB_ACTOR=serjteplov GITHUB_TOKEN=сгенерить)
@@ -27,14 +37,6 @@
 13. Три полоски -> Discover -> Добавить index pattern: app-logs-*
 14. Открыть Discover
 
-## Локальный запуск
-1. Добавить в переменные запуска KEYCLOAK_BASE_URL=http://localhost:8081
-2. Создать БД tweets
-3. Запустить keycloak: cd deploy/ && docker compose up
-4. Запустить приложение birds-app-ktor кнопкой в Intellij
-5. Получить токен в keycloak через постман
-6. Сделать запрос в приложение
-
 ## Получить токен keycloak
 1. При первом запуске приложения нужно создать пользователя serg в интерфейсе Keycloak
 2. http://localhost:8081/
@@ -46,9 +48,6 @@
 8. http://localhost:8081/auth/realms/otus-marketplace/account/#/
 9. Login with serg\1
 10. Сделать запрос в postman ответом на который будет access_token (см. коллекцию постман)
-
-## Отдельный запуск keycloak (в рамках проекта не требуется)
-docker compose -f docker-compose-keycloak.yml up --force-recreate keycloak postgreskey
 
 ## Github Actions настроены и работают
 GITHUB_TOKEN генерится и добавляется в github actions автоматически
@@ -62,9 +61,20 @@ birds-app-api-v1 - модуль со спекой OpenApi, которая явл
 birds-app-biz - модуль с бизнес логикой на паттерне chain of responsibility
 birds-app-common - модуль с внутренними моделями, которые используются внутри приложения. Эти
 модели заполняются на основе транспортных моделей, поступающих извне приложения
-birds-app-mappers - модуль мапперов транспортных моделей во внутренние
+birds-app-domain - модуль (общий) по работе с хранением данных
+birds-app-domain-ehcache - модуль ehcache по работе с хранением данных
+birds-app-domain-postgres - модуль postgres по работе с хранением данных
 birds-app-kafka - модуль транспорта на Kafka
 birds-app-ktor - модуль транспорта на Ktor
-birds-app-serverless - модуль транспорта на Serverless
 birds-app-lib-cor - модуль (библиотека) реализующая chain of responsibility паттерн
+birds-app-lib-logging-common - библиотека общих моделей по логированию
+birds-app-lib-logging-kermit - библиотека имплементирующая логирование kermit
+birds-app-lib-logging-logback - библиотека имплементирующая логирование logback
+birds-app-mappers - модуль мапперов транспортных моделей во внутренние
+birds-app-serverless - модуль транспорта на Serverless
+***
+Планируемые модули:
+birds-app-domain-mongo
+birds-app-spring
+birds-app-spring-webflux
 
