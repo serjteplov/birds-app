@@ -3,9 +3,16 @@ name: 'CI-test'
 on:
   push:
     branches-ignore:
-      - 'v-*'
-      - 'main'
-      - 'master'
+      - 'task-*'
+      - 'develop'
+    pull_request:
+      types:
+        - opened
+        - reopened
+        - synchronize
+      branches:
+        - 'develop'
+        - 'task-*'
   workflow_dispatch:
 
 jobs:
