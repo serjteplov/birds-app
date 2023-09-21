@@ -5,4 +5,3 @@ object Version {
     val BIRDS_APP = "0.0.10"
     val JVM_TARGET = "11"
 }
-
