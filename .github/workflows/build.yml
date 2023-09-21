@@ -12,9 +12,9 @@ on:
         - reopened
         - synchronize
       branches:
-        - 'main'
         - 'master'
-        - 'v-*'
+        - 'develop'
+        - 'task-*'
     workflow-dispatch:
 
 jobs:
