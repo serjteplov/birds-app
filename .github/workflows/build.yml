@@ -3,9 +3,7 @@ name: 'CI-build'
 on:
   push:
     branches:
-      - 'main'
       - 'master'
-      - 'v-*'
     pull_request:
       types:
         - opened
