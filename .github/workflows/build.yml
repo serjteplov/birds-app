@@ -3,18 +3,18 @@ name: 'CI-build'
 on:
   push:
     branches:
-      - 'main'
       - 'master'
-      - 'v-*'
+      - 'develop'
+      - 'task-*'
     pull_request:
       types:
         - opened
         - reopened
         - synchronize
       branches:
-        - 'main'
         - 'master'
-        - 'v-*'
+        - 'develop'
+        - 'task-*'
     workflow-dispatch:
 
 jobs:
