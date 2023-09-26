@@ -10,7 +10,7 @@ networks:
 services:
 
   app:
-    image: birds-app-ktor:0.0.10
+    image: birds-app-ktor:0.1.0
     ports:
       - "8080:8080"
     depends_on:

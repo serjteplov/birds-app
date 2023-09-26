@@ -13,6 +13,18 @@ version = Version.BIRDS_APP
 allprojects {
     repositories {
         mavenCentral()
+        // в данном репозитории лежит birds-app-api-base-v1
+        maven {
+            url = uri("https://maven.pkg.github.com/serjteplov/birds-app")
+            val githubUsername = System.getenv("GITHUB_ACTOR")
+            val githubToken = System.getenv("GITHUB_TOKEN")
+            githubUsername?.let {
+                credentials {
+                    username = githubUsername
+                    password = githubToken
+                }
+            }
+        }
     }
 }
 
@@ -22,7 +34,7 @@ subprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = JavaVersion.VERSION_11.toString()
+            jvmTarget = JavaVersion.VERSION_17.toString()
         }
     }
 }

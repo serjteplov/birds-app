@@ -9,6 +9,13 @@ plugins {
     kotlin("jvm")
 }
 
+tasks.withType<Test> {
+    jvmArgs = mutableListOf(
+        "--add-opens", "java.base/java.util=ALL-UNNAMED",
+        "--add-opens", "java.base/java.lang=ALL-UNNAMED"
+    )
+}
+
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(project(":birds-app-api-v1"))
