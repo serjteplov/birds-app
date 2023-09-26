@@ -88,3 +88,11 @@ dependencies {
     testImplementation(kotlin("test-junit"))
     testImplementation("io.mockk:mockk:$mockkVersion")
 }
+
+tasks.withType<Test> {
+    testLogging.showStandardStreams = true
+    jvmArgs = mutableListOf(
+        "--add-opens", "java.base/java.util=ALL-UNNAMED",
+        "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+    )
+}
