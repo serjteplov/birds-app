@@ -4,11 +4,18 @@ pluginManagement {
     val kotlinVersion: String by settings
     val openapiVersion: String by settings
     val ktorVersion: String by settings
+    val springDependencyManagementVersion: String by settings
+    val springBootVersion: String by settings
+    val springPluginVersion: String by settings
     plugins {
         kotlin("jvm") version kotlinVersion apply false
         kotlin("plugin.serialization") version kotlinVersion apply false
         id("org.openapi.generator") version openapiVersion apply false
         id("io.ktor.plugin") version ktorVersion apply false
+
+        id("org.springframework.boot") version springBootVersion apply false
+        id("io.spring.dependency-management") version springDependencyManagementVersion apply false
+        kotlin("plugin.spring") version springPluginVersion apply false
     }
 }
 
@@ -27,3 +34,4 @@ include("birds-app-lib-logging-kermit")
 include("birds-app-domain")
 include("birds-app-domain-ehcache")
 include("birds-app-domain-postgres")
+include("birds-app-spring-webflux")
