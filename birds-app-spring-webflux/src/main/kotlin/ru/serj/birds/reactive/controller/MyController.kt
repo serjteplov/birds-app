@@ -12,9 +12,12 @@ import ru.serj.api.v1.models.Error
 import ru.serj.api.v1.models.ResponseResult
 import ru.serj.api.v1.models.TweetFilterRequest
 import ru.serj.api.v1.models.TweetFilterResponse
+import ru.serj.birds.reactive.service.MyService
 
 @RestController
-class MyController {
+class MyController(
+    private val myService: MyService
+) {
 
     @PostMapping("/bird/v2/flux")
     suspend fun getFiltered(req: TweetFilterRequest): Flux<TweetFilterResponse> {

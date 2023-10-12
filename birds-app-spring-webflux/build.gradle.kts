@@ -45,6 +45,8 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-actuator") // info; refresh; springMvc output
     implementation("org.springframework.boot:spring-boot-starter-webflux") // Controller, Service, etc..
+    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin") // from models to json and Vice versa
     implementation("org.jetbrains.kotlin:kotlin-reflect") // for spring-boot app
     implementation("org.jetbrains.kotlin:kotlin-stdlib") // for spring-boot app
@@ -75,8 +77,6 @@ dependencies {
     implementation("org.fluentd:fluent-logger:$fluentdLoggerVersion")
     implementation("net.logstash.logback:logstash-logback-encoder:$logstashEncoderVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinDatetime")
-
-
     testImplementation(kotlin("test-junit"))
     testImplementation("io.mockk:mockk:$mockkVersion")
 }
